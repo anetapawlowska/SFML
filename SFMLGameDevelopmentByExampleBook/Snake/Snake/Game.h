@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Window.h"
+#include "Snake.h"
+#include "World.h"
 
 class Game
 {
@@ -16,6 +18,8 @@ public:
 	void restartClock();
 
 private:
+	World m_world;
+	Snake m_snake;
 	Window m_window;
 	sf::Clock m_clock;
 	sf::Time m_elapsed;

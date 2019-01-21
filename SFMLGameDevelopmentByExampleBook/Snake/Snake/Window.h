@@ -18,6 +18,7 @@ public:
 	sf::Vector2u getWindowSize() const;
 	void toggleFullScreen();
 	void draw(sf::Drawable& drawable);
+	sf::RenderWindow* getRenderWindow();
 
 private:
 	void setup(const std::string& title, const sf::Vector2u& size);

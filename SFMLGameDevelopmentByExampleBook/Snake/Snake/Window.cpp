@@ -85,3 +85,8 @@ void Window::create()
 	auto style = m_isFullScreen ? sf::Style::Fullscreen : sf::Style::Default;
 	m_window.create({ m_size.x, m_size.y, 32 }, m_title, style);
 }
+
+sf::RenderWindow* Window::getRenderWindow()
+{
+	return &m_window;
+}
