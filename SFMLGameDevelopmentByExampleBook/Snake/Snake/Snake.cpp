@@ -177,9 +177,24 @@ void Snake::render(sf::RenderWindow& window)
 		m_bodyRect.setPosition(it->position.x * m_size, it->position.y * m_size);
 		window.draw(m_bodyRect);
 	}
-
-
 }
+
+Direction Snake::getPhysicalDirection() 
+{
+	if (m_snakeBody.size() <= 1)
+		return Direction::None;
+
+	SnakeSegment& head = m_snakeBody[0];
+	SnakeSegment& neck = m_snakeBody[1];
+
+	if (head.position.x == neck.position.x)
+		return (head.position.y > neck.position.y ? Direction::Down : Direction::Up);
+	else if (head.position.y == neck.position.y)
+		return (head.position.x > neck.position.x ? Direction::Right : Direction::Left);
+	return Direction::None;
+}
+
+
 
 
 

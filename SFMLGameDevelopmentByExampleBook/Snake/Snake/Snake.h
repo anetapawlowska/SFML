@@ -8,7 +8,7 @@ struct SnakeSegment
 	sf::Vector2i position;
 };
 
-using SnameContainer = std::vector<SnakeSegment>;
+using SnakeContainer = std::vector<SnakeSegment>;
 
 enum class Direction{None, Up, Down, Left, Right};
 
@@ -26,6 +26,7 @@ public:
 	int getScore() const;
 	void increaseScore();
 	bool hasLost();
+	Direction getPhysicalDirection();
 
 	void lose();
 	void toggleLost();
@@ -41,7 +42,7 @@ public:
 private:
 	void checkCollision();
 
-	SnameContainer m_snakeBody;
+	SnakeContainer m_snakeBody;
 	int m_size;
 	Direction m_dir;
 	int m_speed;

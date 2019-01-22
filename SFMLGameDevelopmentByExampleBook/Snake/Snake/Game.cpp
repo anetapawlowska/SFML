@@ -13,13 +13,13 @@ Game::~Game()
 
 void Game::handleInput()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && m_snake.getDirection() != Direction::Down)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && m_snake.getPhysicalDirection() != Direction::Down)
 		m_snake.setDirection(Direction::Up);
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && m_snake.getDirection() != Direction::Up)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && m_snake.getPhysicalDirection() != Direction::Up)
 		m_snake.setDirection(Direction::Down);
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && m_snake.getDirection() != Direction::Left)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && m_snake.getPhysicalDirection() != Direction::Left)
 		m_snake.setDirection(Direction::Right);
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && m_snake.getDirection() != Direction::Right)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && m_snake.getPhysicalDirection() != Direction::Right)
 		m_snake.setDirection(Direction::Left);
 
 }
