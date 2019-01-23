@@ -1,8 +1,8 @@
 #include "Game.h"
 
 
-Game::Game() : m_window{ "Snake", sf::Vector2u{ 800, 600 } }, 
-m_snake(m_world.getBlockSize()), m_world(sf::Vector2u(800,600))
+Game::Game() : m_window{ "Snake", sf::Vector2u{ 800, 608 } }, 
+m_snake(m_world.getBlockSize()), m_world(sf::Vector2u(800,608))
 {
 }
 
