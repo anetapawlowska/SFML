@@ -37,7 +37,6 @@ bool Window::isDone() const
 	return m_isDone;
 }
 
-
 sf::RenderWindow* Window::getRenderWindow()
 {
 	return &m_window;
