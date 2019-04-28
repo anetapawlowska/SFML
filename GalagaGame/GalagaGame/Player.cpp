@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "PlayersBullets.h"
 
-
-Player::Player() : m_player{sf::Vector2f{16.0f, 16.0f}}
+Player::Player(PlayersBullets* bullets) : m_player{sf::Vector2f{16.0f, 16.0f}}, m_bullets{bullets}
 {
 	m_player.setFillColor(sf::Color::Red);
 	m_player.setPosition(320, 448);
@@ -31,6 +31,11 @@ void Player::moveLeft()
 void Player::moveRight()
 {
 	m_player.setPosition(m_player.getPosition().x + step, m_player.getPosition().y);
+}
+
+void Player::shoot()
+{
+	m_bullets->add(Position{ m_player.getPosition().x, m_player.getPosition().y });
 }
 
 sf::RectangleShape& Player::getPlayerShape()

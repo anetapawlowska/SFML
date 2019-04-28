@@ -60,3 +60,15 @@ void Enemies::start()
 {
 	m_enemiesPositions.clear();
 }
+
+std::vector<Position>& Enemies::getPositions()
+{
+	return m_enemiesPositions;
+}
+
+void Enemies::killed(Position pos)
+{
+	auto it = std::find(begin(m_enemiesPositions), end(m_enemiesPositions), pos);
+	if (it != end(m_enemiesPositions))
+		m_enemiesPositions.erase(it);
+}

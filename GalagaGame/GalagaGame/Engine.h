@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Enemies.h"
 #include "EnemiesBullets.h"
+#include "PlayersBullets.h"
 
 class Window;
 
@@ -29,6 +30,7 @@ public:
 private:
 	std::unique_ptr<Window> m_window;
 	Player m_player;
+	PlayersBullets m_playersBullets;
 	Enemies m_enemies;
 	EnemiesBullets m_enemiesBullets;
 	sf::Clock m_clock;

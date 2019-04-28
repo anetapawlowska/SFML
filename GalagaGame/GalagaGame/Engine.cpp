@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "Window.h"
 
-Engine::Engine() : m_enemies{&m_enemiesBullets}
+Engine::Engine() :m_player{ &m_playersBullets }, m_enemies { &m_enemiesBullets }
 {
 	m_window = std::make_unique<Window>();
 }
@@ -21,7 +21,9 @@ void Engine::handleInput()
 			m_player.moveRight();
 		else  if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left)
 			m_player.moveLeft();
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
+		else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
+			m_player.shoot();
+		else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
 			m_enemies.add();
 	}
 }
@@ -34,9 +36,10 @@ void Engine::update()
 		m_elapsed -= sf::seconds(timestep);
 		checkCollisions();
 		m_window->update();
+		m_playersBullets.update();
 		m_player.update();
-		m_enemies.update();
 		m_enemiesBullets.update();
+		m_enemies.update();
 	}
 }
 
@@ -44,6 +47,7 @@ void Engine::render()
 {
 	m_window->beginDraw();
 	m_player.render(m_window->getRenderWindow());
+	m_playersBullets.render(m_window->getRenderWindow());
 	m_enemies.render(m_window->getRenderWindow());
 	m_enemiesBullets.render(m_window->getRenderWindow());
 	m_window->endDraw();
@@ -73,6 +77,30 @@ void Engine::checkCollisions()
 		bullet.setPosition(bulletPos.x, bulletPos.y);
 		if (isCollision(m_player.getPlayerShape(), bullet))
 			start();
+	}
+
+	auto enemies = m_enemies.getPositions();
+	sf::RectangleShape enemy{ sf::Vector2f{ 16.0f, 16.0f } };
+	for (auto enemyPos : enemies)
+	{
+		enemy.setPosition(enemyPos.x, enemyPos.y);
+		if (isCollision(m_player.getPlayerShape(), enemy))
+			start();
+	}
+
+	auto playerBullets = m_playersBullets.getBulletsPositions();
+	for (auto enemyPos : enemies)
+	{
+		enemy.setPosition(enemyPos.x, enemyPos.y);
+		for (auto bulletPos : playerBullets)
+		{
+			bullet.setPosition(bulletPos.x, bulletPos.y);
+			if (isCollision(bullet, enemy))
+			{
+				m_enemies.killed(enemyPos);
+				m_playersBullets.remove(bulletPos);
+			}
+		}
 	}
 }
 

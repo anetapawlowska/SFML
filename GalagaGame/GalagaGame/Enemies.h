@@ -14,6 +14,8 @@ public:
 	void add();
 	void shoot(Position position);
 	void start();
+	std::vector<Position>& getPositions();
+	void killed(Position pos);
 
 private:
 	std::vector<Position> m_enemiesPositions;
