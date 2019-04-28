@@ -1,21 +1,11 @@
 #pragma once
-#include "Helpers.h"
-#include <SFML\Graphics.hpp>
-#include <vector>
+#include "Bullets.h"
 
-class EnemiesBullets
+class EnemiesBullets : public Bullets
 {
 public:
-	EnemiesBullets();
-	~EnemiesBullets();
+	EnemiesBullets(sf::Vector2f windowSize);
 
-	void update();
-	void render(sf::RenderWindow* window);
-	void add(Position position);
-	std::vector<Position>& getBulletsPositions();
-	void start();
-private:
-	std::vector<Position> m_bullets;
-	float step{ 10.0f };
+	float getStep() const override;
 };
 

@@ -25,10 +25,10 @@ public:
 	void checkCollisions();
 	bool isCollision(sf::RectangleShape first, sf::RectangleShape second) const;
 
-	Window* getWindow();
+	sf::RenderWindow* getWindow();
 
 private:
-	std::unique_ptr<Window> m_window;
+	sf::RenderWindow m_window;
 	Player m_player;
 	PlayersBullets m_playersBullets;
 	Enemies m_enemies;

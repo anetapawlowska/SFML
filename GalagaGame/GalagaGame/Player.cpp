@@ -2,11 +2,14 @@
 #include "Player.h"
 #include "PlayersBullets.h"
 
-Player::Player(PlayersBullets* bullets) : m_player{sf::Vector2f{16.0f, 16.0f}}, m_bullets{bullets}
+Player::Player(PlayersBullets* bullets, sf::Vector2f windowSize) :
+m_bullets{bullets}, m_windowSize{windowSize}
 {
+	m_player.setSize(m_size);
 	m_player.setFillColor(sf::Color::Red);
-	m_player.setPosition(320, 448);
-	m_player.setOrigin(8.0f, 8.0f);
+	m_startPosition.x = m_windowSize.x / 2 - m_size.x / 2;
+	m_startPosition.y =  m_windowSize.y - 2 * m_size.y;
+	m_player.setPosition(m_startPosition);
 }
 
 Player::~Player()
@@ -25,17 +28,21 @@ void Player::render(sf::RenderWindow* renderWindow)
 
 void Player::moveLeft()
 {
-	m_player.setPosition(m_player.getPosition().x - step, m_player.getPosition().y);
+	const auto pos = m_player.getPosition();
+	if (pos.x > 0)
+		m_player.setPosition(pos.x - step, pos.y);
 }
 
 void Player::moveRight()
 {
-	m_player.setPosition(m_player.getPosition().x + step, m_player.getPosition().y);
+	const auto pos = m_player.getPosition();
+	if (pos.x < m_windowSize.x - m_size.x)
+		m_player.setPosition(pos.x + step, pos.y);
 }
 
 void Player::shoot()
 {
-	m_bullets->add(Position{ m_player.getPosition().x, m_player.getPosition().y });
+	m_bullets->add(sf::Vector2f{ m_player.getPosition().x, m_player.getPosition().y });
 }
 
 sf::RectangleShape& Player::getPlayerShape()
@@ -45,5 +52,5 @@ sf::RectangleShape& Player::getPlayerShape()
 
 void Player::start()
 {
-	m_player.setPosition(320, 448);
+	m_player.setPosition(m_startPosition);
 }

@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "Engine.h"
-#include "Window.h"
 
-Engine::Engine() :m_player{ &m_playersBullets }, m_enemies { &m_enemiesBullets }
+Engine::Engine() :m_player{ &m_playersBullets, sf::Vector2f{320, 560} }, m_enemies{ &m_enemiesBullets }, 
+m_enemiesBullets{ sf::Vector2f{ 320, 560 } }, m_playersBullets{ sf::Vector2f{ 320, 560 } }
 {
-	m_window = std::make_unique<Window>();
+	m_window.create({ 320, 560, 32 }, "Galaga", sf::Style::Default);
 }
 
 
@@ -15,15 +15,17 @@ Engine::~Engine()
 void Engine::handleInput()
 {
 	sf::Event event;
-	while (m_window->getRenderWindow()->pollEvent(event))
+	while (m_window.pollEvent(event))
 	{
+		if (event.type == sf::Event::Closed)
+			m_window.close();
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right)
 			m_player.moveRight();
-		else  if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left)
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left)
 			m_player.moveLeft();
-		else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
 			m_player.shoot();
-		else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
 			m_enemies.add();
 	}
 }
@@ -35,7 +37,6 @@ void Engine::update()
 	{
 		m_elapsed -= sf::seconds(timestep);
 		checkCollisions();
-		m_window->update();
 		m_playersBullets.update();
 		m_player.update();
 		m_enemiesBullets.update();
@@ -45,17 +46,18 @@ void Engine::update()
 
 void Engine::render()
 {
-	m_window->beginDraw();
-	m_player.render(m_window->getRenderWindow());
-	m_playersBullets.render(m_window->getRenderWindow());
-	m_enemies.render(m_window->getRenderWindow());
-	m_enemiesBullets.render(m_window->getRenderWindow());
-	m_window->endDraw();
+	m_window.clear(sf::Color::Black);
+	m_playersBullets.render(getWindow());
+	m_player.render(getWindow());
+	m_enemies.render(getWindow());
+	m_enemiesBullets.render(getWindow());
+	m_window.display();
 }
 
-Window* Engine::getWindow()
+sf::RenderWindow* Engine::getWindow()
 {
-	return m_window.get();
+	return 
+		&m_window;
 }
 
 sf::Time Engine::getElapsed() const
@@ -112,6 +114,7 @@ bool Engine::isCollision(sf::RectangleShape first, sf::RectangleShape second) co
 void Engine::start()
 {
 	m_player.start();
+	m_playersBullets.start();
 	m_enemiesBullets.start();
 	m_enemies.start();
 }

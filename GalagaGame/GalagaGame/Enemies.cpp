@@ -25,7 +25,7 @@ void Enemies::update()
 	{
 		pos.y += step;
 	}
-	auto toRemoveIt = std::remove_if(begin(m_enemiesPositions), end(m_enemiesPositions), [](Position p) {return p.y > 480; });
+	auto toRemoveIt = std::remove_if(begin(m_enemiesPositions), end(m_enemiesPositions), [](sf::Vector2f p) {return p.y > 480; });
 	m_enemiesPositions.erase(toRemoveIt, end(m_enemiesPositions));
 	
 }
@@ -43,15 +43,15 @@ void Enemies::render(sf::RenderWindow* window)
 
 void Enemies::add()
 {
-	m_enemiesPositions.push_back(Position{ 16.0f, 0.0f });
-	m_enemiesPositions.push_back(Position{ 96.0f, 0.0f });
-	m_enemiesPositions.push_back(Position{ 200.0f, 0.0f });
-	m_enemiesPositions.push_back(Position{ 280.0f, 0.0f });
-	m_enemiesPositions.push_back(Position{ 360.0f, 0.0f });
-	m_enemiesPositions.push_back(Position{ 440.0f, 0.0f });
+	m_enemiesPositions.push_back(sf::Vector2f{ 16.0f, 0.0f });
+	m_enemiesPositions.push_back(sf::Vector2f{ 96.0f, 0.0f });
+	m_enemiesPositions.push_back(sf::Vector2f{ 200.0f, 0.0f });
+	m_enemiesPositions.push_back(sf::Vector2f{ 280.0f, 0.0f });
+	m_enemiesPositions.push_back(sf::Vector2f{ 360.0f, 0.0f });
+	m_enemiesPositions.push_back(sf::Vector2f{ 440.0f, 0.0f });
 }
 
-void Enemies::shoot(Position position)
+void Enemies::shoot(sf::Vector2f position)
 {
 	m_bullets->add(position);
 }
@@ -61,12 +61,12 @@ void Enemies::start()
 	m_enemiesPositions.clear();
 }
 
-std::vector<Position>& Enemies::getPositions()
+std::vector<sf::Vector2f>& Enemies::getPositions()
 {
 	return m_enemiesPositions;
 }
 
-void Enemies::killed(Position pos)
+void Enemies::killed(sf::Vector2f pos)
 {
 	auto it = std::find(begin(m_enemiesPositions), end(m_enemiesPositions), pos);
 	if (it != end(m_enemiesPositions))
