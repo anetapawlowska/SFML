@@ -11,7 +11,7 @@ Bullets::~Bullets()
 {
 }
 
-void Bullets::update()
+void Bullets::update(float deltaTime)
 {
 	if (m_bullets.empty())
 		return;
@@ -56,3 +56,7 @@ void Bullets::remove(sf::Vector2f pos)
 		m_bullets.erase(it);
 }
 
+sf::Vector2f Bullets::getSize() const
+{
+	return m_size;
+}

@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "Engine.h"
 
-Engine::Engine() :m_player{ &m_playersBullets, sf::Vector2f{320, 560} }, m_enemies{ &m_enemiesBullets }, 
-m_enemiesBullets{ sf::Vector2f{ 320, 560 } }, m_playersBullets{ sf::Vector2f{ 320, 560 } }
+Engine::Engine() :m_player{ &m_playersBullets, sf::Vector2f{ 400, 480 } }, m_enemies{ &m_enemiesBullets, sf::Vector2f{ 400, 480 } },
+m_enemiesBullets{ sf::Vector2f{ 400, 480 } }, m_playersBullets{ sf::Vector2f{ 400, 480 } }
 {
-	m_window.create({ 320, 560, 32 }, "Galaga", sf::Style::Default);
+	m_window.create({ 400, 480, 32 }, "Galaga", sf::Style::Default);
 }
 
 
@@ -32,15 +32,17 @@ void Engine::handleInput()
 
 void Engine::update()
 {
-	float timestep = 0.1f;
+	float timestep = 0.05f;
 	if (m_elapsed.asSeconds() >= timestep)
 	{
 		m_elapsed -= sf::seconds(timestep);
+		if (m_enemies.getEnemies().empty())
+			start();
 		checkCollisions();
-		m_playersBullets.update();
-		m_player.update();
-		m_enemiesBullets.update();
-		m_enemies.update();
+		m_playersBullets.update(timestep);
+		m_player.update(timestep);
+		m_enemiesBullets.update(timestep);
+		m_enemies.update(timestep);
 	}
 }
 
@@ -81,11 +83,11 @@ void Engine::checkCollisions()
 			start();
 	}
 
-	auto enemies = m_enemies.getPositions();
+	auto enemies = m_enemies.getEnemies();
 	sf::RectangleShape enemy{ sf::Vector2f{ 16.0f, 16.0f } };
 	for (auto enemyPos : enemies)
 	{
-		enemy.setPosition(enemyPos.x, enemyPos.y);
+		enemy.setPosition(enemyPos.getPosition());
 		if (isCollision(m_player.getPlayerShape(), enemy))
 			start();
 	}
@@ -93,13 +95,13 @@ void Engine::checkCollisions()
 	auto playerBullets = m_playersBullets.getBulletsPositions();
 	for (auto enemyPos : enemies)
 	{
-		enemy.setPosition(enemyPos.x, enemyPos.y);
+		enemy.setPosition(enemyPos.getPosition());
 		for (auto bulletPos : playerBullets)
 		{
 			bullet.setPosition(bulletPos.x, bulletPos.y);
 			if (isCollision(bullet, enemy))
 			{
-				m_enemies.killed(enemyPos);
+				m_enemies.killed(enemyPos.getPosition());
 				m_playersBullets.remove(bulletPos);
 			}
 		}

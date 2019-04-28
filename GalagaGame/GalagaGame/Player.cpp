@@ -16,7 +16,7 @@ Player::~Player()
 {
 }
 
-void Player::update()
+void Player::update(float deltaTime)
 {
 
 }
@@ -42,7 +42,11 @@ void Player::moveRight()
 
 void Player::shoot()
 {
-	m_bullets->add(sf::Vector2f{ m_player.getPosition().x, m_player.getPosition().y });
+	const auto playerPosition = m_player.getPosition();
+	const auto bulletsSize = m_bullets->getSize();
+	const float x = playerPosition.x + m_size.x / 2 - bulletsSize.x / 2;
+	const float y = playerPosition.y - bulletsSize.y;
+	m_bullets->add({x ,y});
 }
 
 sf::RectangleShape& Player::getPlayerShape()

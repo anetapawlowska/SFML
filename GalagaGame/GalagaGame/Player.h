@@ -9,7 +9,7 @@ public:
 	Player(PlayersBullets* bullets, sf::Vector2f windowSize);
 	~Player();
 
-	void update();
+	void update(float deltaTime);
 	void render(sf::RenderWindow* renderWindow);
 
 	void moveLeft();
