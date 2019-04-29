@@ -1,12 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include "Player.h"
-#include "Enemies.h"
-#include "EnemiesBullets.h"
-#include "PlayersBullets.h"
 
-class Window;
+class Player;
+class Enemies;
+class Bullets;
 
 class Engine
 {
@@ -28,11 +26,12 @@ public:
 	sf::RenderWindow* getWindow();
 
 private:
+	std::unique_ptr<Player> m_player;
+	std::unique_ptr<Bullets> m_playersBullets;
+	std::unique_ptr<Enemies> m_enemies;
+	std::unique_ptr<Bullets> m_enemiesBullets;
+
 	sf::RenderWindow m_window;
-	Player m_player;
-	PlayersBullets m_playersBullets;
-	Enemies m_enemies;
-	EnemiesBullets m_enemiesBullets;
 	sf::Clock m_clock;
 	sf::Time m_elapsed;
 };

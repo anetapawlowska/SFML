@@ -1,12 +1,12 @@
 #pragma once
 #include <SFML\Graphics.hpp>
-#include "EnemiesBullets.h"
+#include "Bullets.h"
 #include "Enemy.h"
 
 class Enemies
 {
 public:
-	Enemies(EnemiesBullets* enemiesBullets, sf::Vector2f windowSize);
+	Enemies(Bullets* enemiesBullets, sf::Vector2f windowSize, sf::Vector2f size, float step, sf::Color color);
 	~Enemies();
 
 	void update(float deltaTime);
@@ -16,16 +16,16 @@ public:
 	void start();
 	std::vector<Enemy>& getEnemies();
 	void killed(sf::Vector2f pos);
-	void attack(Enemy& enemy);
 
 private:
+	sf::Color m_color;
 	std::vector<Enemy> m_enemies;
-	EnemiesBullets* m_bullets;
-	const float m_step{ 4.0 };
+	Bullets* m_bullets;
+	const float m_step;
 	const float m_smallStep{0.5};
 	float m_timeElapsed;
-	sf::Vector2f m_windowSize;
-	sf::Vector2f m_size;
+	const sf::Vector2f m_windowSize;
+	const sf::Vector2f m_size;
 	const unsigned m_swayInOneDirection = 10;
 	unsigned m_sways = 0;
 };

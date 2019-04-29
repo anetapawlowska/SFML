@@ -27,7 +27,6 @@ public:
 	sf::Vector2f getStep() const;
 	Action getAction() const;
 	void attack(sf::Vector2f step);
-	void goBack();
 
 private:
 	sf::Color m_color;

@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "Player.h"
-#include "PlayersBullets.h"
+#include "Bullets.h"
 
-Player::Player(PlayersBullets* bullets, sf::Vector2f windowSize) :
-m_bullets{bullets}, m_windowSize{windowSize}
+Player::Player(Bullets* bullets, sf::Vector2f windowSize, sf::Vector2f size, float step, sf::Color color) :
+m_bullets{bullets}, m_windowSize{windowSize}, m_size{size}, m_step{step}
 {
 	m_player.setSize(m_size);
-	m_player.setFillColor(sf::Color::Red);
+	m_player.setFillColor(color);
 	m_startPosition.x = m_windowSize.x / 2 - m_size.x / 2;
 	m_startPosition.y =  m_windowSize.y - 2 * m_size.y;
 	m_player.setPosition(m_startPosition);
@@ -30,14 +30,14 @@ void Player::moveLeft()
 {
 	const auto pos = m_player.getPosition();
 	if (pos.x > 0)
-		m_player.setPosition(pos.x - step, pos.y);
+		m_player.setPosition(pos.x - m_step, pos.y);
 }
 
 void Player::moveRight()
 {
 	const auto pos = m_player.getPosition();
 	if (pos.x < m_windowSize.x - m_size.x)
-		m_player.setPosition(pos.x + step, pos.y);
+		m_player.setPosition(pos.x + m_step, pos.y);
 }
 
 void Player::shoot()

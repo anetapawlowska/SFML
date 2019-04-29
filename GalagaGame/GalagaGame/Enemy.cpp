@@ -14,14 +14,12 @@ Enemy::~Enemy()
 
 void Enemy::update(float deltaTime) 
 {
-	if (m_action == Action::attack )
-		if  (m_position.y >= m_windowSize.y)
+	if (m_action == Action::attack && m_position.y >= m_windowSize.y)
 	{
 		m_position.y = -m_size.y;
-		goBack();
+		m_action = Action::goBack;
 	}
-	if (m_action == Action::goBack)
-		if( abs(m_position.x - m_startPosition.x) <= abs( m_step.x) && abs(m_position.y - m_startPosition.y) <= abs(m_step.y))
+	if (m_action == Action::goBack && abs(m_position.y - m_startPosition.y) <= abs(m_step.y))
 	{
 		m_position = m_startPosition;
 		m_action = Action::sway;
@@ -63,13 +61,4 @@ void Enemy::attack(sf::Vector2f step)
 {
 	m_action = Action::attack;
 	m_step = step;
-}
-
-void Enemy::goBack()
-{
-	const unsigned numOfSteps = std::ceil((m_startPosition.y - m_position.y) / 4.0f);
-	const float stepX = (m_startPosition.x -  m_position.x) / numOfSteps;
-
-	m_step = sf::Vector2f{ stepX , 4.0f };
-	m_action = Action::goBack;
 }

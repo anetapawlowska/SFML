@@ -5,7 +5,7 @@
 class Bullets
 {
 public:
-	Bullets(sf::Vector2f windowSize);
+	Bullets(sf::Vector2f windowSize, sf::Vector2f size, float step, sf::Color color);
 	virtual ~Bullets();
 
 	void update(float deltaTime);
@@ -17,11 +17,12 @@ public:
 	void remove(sf::Vector2f pos);
 	sf::Vector2f getSize() const;
 
-	virtual float getStep() const = 0;
-
 private:
 	std::vector<sf::Vector2f> m_bullets;
-	sf::Vector2f m_windowSize;
-	sf::Vector2f m_size{ 4.0f, 4.0f };
+	
+	const sf::Vector2u m_windowSize;
+	const sf::Vector2f m_size;
+	float m_step;
+	const sf::Color m_color;
 };
 

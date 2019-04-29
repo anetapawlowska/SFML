@@ -3,9 +3,9 @@
 #include <cstdlib>
 #include <cmath>
 
-Enemies::Enemies(EnemiesBullets* enemiesBullets, sf::Vector2f windowSize) : m_windowSize{ windowSize }, m_bullets { enemiesBullets }
+Enemies::Enemies(Bullets* enemiesBullets, sf::Vector2f windowSize, sf::Vector2f size, float step, sf::Color color) : m_windowSize{ windowSize },
+m_bullets{ enemiesBullets }, m_size{ size }, m_step{step}, m_color{color}
 {
-	m_size = { 16.0f, 16.0f };
 }
 
 
@@ -20,8 +20,8 @@ void Enemies::update(float deltaTime)
 
 	for (auto& enemy : m_enemies)
 	{
-		//if (enemy.getAction() == Enemy::Action::sway && rand() % 100 == 0)
-		//	attack(enemy);
+		if (enemy.getAction() == Enemy::Action::sway && rand() % ( 200 * m_enemies.size()) == 0)	
+			enemy.attack({ 0.0f, m_step });
 				
 		enemy.update(deltaTime);
 	}
@@ -29,17 +29,6 @@ void Enemies::update(float deltaTime)
 	for (auto& enemy : m_enemies)
 		if (enemy.getAction() == Enemy::Action::attack && rand() % 20 == 0)
 			shoot(enemy.getPosition());
-
-	/*++m_sways;
-	if (m_sways == m_swayInOneDirection)
-	{
-		for (auto& enemy : m_enemies)
-		{
-			const auto step = enemy.getStep();
-			enemy.changeStep({ -1 * step.x, 0.0f });
-		}
-		m_sways = 0;
-	}*/
 }
 
 void Enemies::render(sf::RenderWindow* window) 
@@ -61,10 +50,8 @@ void Enemies::add()
 		for (unsigned i = 0; i < inRow; ++i)
 		{
 			sf::Vector2f position{ startPoint + i * (m_size.x + spaces), 32.0f + row * (m_size.y + spaces) };
-			m_enemies.push_back(Enemy(m_windowSize, sf::Vector2f{ 16.0f, 16.0f }, sf::Color::Blue, position));
+			m_enemies.push_back(Enemy(m_windowSize, m_size, m_color, position));
 		}
-
-	attack(m_enemies[0]);
 }
 
 void Enemies::shoot(sf::Vector2f position)
@@ -91,16 +78,4 @@ void Enemies::killed(sf::Vector2f pos)
 	auto it = std::find_if(begin(m_enemies), end(m_enemies), [pos](auto enemy) {return enemy.getPosition() == pos; });
 	if (it != end(m_enemies))
 		m_enemies.erase(it);
-}
-
-void Enemies::attack(Enemy& enemy)
-{
-	const float endPosX = rand() % static_cast<int>(m_windowSize.x - 16);
-	const auto startPos = enemy.getPosition();
-
-	const unsigned numOfSteps = std::ceil((m_windowSize.y - startPos.y) / m_step);
-
-	const float stepX = (endPosX - startPos.x) / numOfSteps;
-
-	enemy.attack({ stepX, m_step });
 }

@@ -154,23 +154,19 @@
   <ItemGroup>
     <ClInclude Include="Bullets.h" />
     <ClInclude Include="Enemies.h" />
-    <ClInclude Include="EnemiesBullets.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayersBullets.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bullets.cpp" />
     <ClCompile Include="Enemies.cpp" />
-    <ClCompile Include="EnemiesBullets.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GalagaGame.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayersBullets.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -2,7 +2,8 @@
 #include "Bullets.h"
 
 
-Bullets::Bullets(sf::Vector2f windowSize) : m_windowSize{windowSize}
+Bullets::Bullets(sf::Vector2f windowSize, sf::Vector2f size, float step, sf::Color color) : m_windowSize{ windowSize }, 
+m_size{ size }, m_step {step}, m_color{color}
 {
 }
 
@@ -17,7 +18,7 @@ void Bullets::update(float deltaTime)
 		return;
 	for (auto& pos : m_bullets)
 	{
-		pos.y += getStep();	
+		pos.y += m_step;	
 	}
 	auto toRemoveIt = std::remove_if(begin(m_bullets), end(m_bullets), [&](sf::Vector2f p) {return p.y + m_size.y <= 0 || p.y >= m_windowSize.y; });
 	m_bullets.erase(toRemoveIt, end(m_bullets));
@@ -26,7 +27,7 @@ void Bullets::update(float deltaTime)
 void Bullets::render(sf::RenderWindow* window)
 {
 	sf::RectangleShape bullet{ m_size };
-	bullet.setFillColor(sf::Color::White);
+	bullet.setFillColor(m_color);
 	for (auto pos : m_bullets)
 	{
 		bullet.setPosition(pos.x, pos.y);
