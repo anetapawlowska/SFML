@@ -37,8 +37,7 @@ void Engine::render()
 
 sf::RenderWindow* Engine::getWindow()
 {
-	return 
-		&m_window;
+	return &m_window;
 }
 
 sf::Time Engine::getElapsed() const

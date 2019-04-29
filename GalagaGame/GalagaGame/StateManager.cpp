@@ -2,10 +2,11 @@
 #include "StateManager.h"
 #include "State.h"
 #include "GameState.h"
+#include "StartState.h"
 
 StateManager::StateManager()
 {
-	m_state = std::make_unique<GameState>();
+	m_state = std::make_unique<StartState>(this);
 }
 
 
