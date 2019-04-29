@@ -13,7 +13,7 @@ public:
 	void render(sf::RenderWindow* window);
 	void add();
 	void shoot(sf::Vector2f position);
-	void start();
+	void clear();
 	std::vector<Enemy>& getEnemies();
 	void killed(sf::Vector2f pos);
 

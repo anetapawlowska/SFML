@@ -62,10 +62,9 @@ void Enemies::shoot(sf::Vector2f position)
 	m_bullets->add({ x,y });
 }
 
-void Enemies::start()
+void Enemies::clear()
 {
 	m_enemies.clear();
-	add();
 }
 
 std::vector<Enemy>& Enemies::getEnemies()

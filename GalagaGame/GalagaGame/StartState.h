@@ -1,7 +1,7 @@
 #pragma once
 #include "State.h"
 
-class StateManager;
+#include "StateManager.h"
 
 class StartState : public State
 {
@@ -16,7 +16,10 @@ public:
 	 void onEnter() override;
 	 void onLeave() override;
 
+
 private:
+	StateManager::States getNextState() const;
+
 	sf::Text m_text;
 	sf::Font m_font;
 	StateManager* m_stateManager;

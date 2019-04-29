@@ -28,7 +28,7 @@ void StartState::handleInput(sf::RenderWindow* window)
 		if (event.type == sf::Event::Closed)
 			window->close();
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
-			m_stateManager->switchState(std::make_unique<GameState>());
+			m_stateManager->setNextState(getNextState());
 	}
 }
 
@@ -45,3 +45,8 @@ void StartState::onEnter()
 
 void StartState::onLeave() 
 {}
+
+StateManager::States StartState::getNextState() const
+{
+	return StateManager::States::Game;
+}

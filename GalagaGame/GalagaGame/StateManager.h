@@ -3,20 +3,33 @@
 #include <memory>
 
 class State;
+struct SharedContext;
 
 class StateManager
 {
 public:
-	StateManager();
+	StateManager(SharedContext* shared);
 	~StateManager();
+
+	enum class States
+	{
+		Start,
+		Game,
+		GameOver
+	};
 
 	void handleInput(sf::RenderWindow* window);
 	void update(float deltaTime);
 	void render(sf::RenderWindow* window);
 
-	void switchState(std::unique_ptr<State> state);
+	void setNextState(States state);
 
-private:
-	std::unique_ptr<State> m_state;
+	SharedContext* getSharedContext();
+
+protected:
+	std::shared_ptr<State> m_currentState;
+	std::map<States, std::shared_ptr<State>> m_states;
+	SharedContext* m_shared;
+
 };
 

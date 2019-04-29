@@ -13,7 +13,7 @@ public:
 
 	void add(sf::Vector2f position);
 	std::vector<sf::Vector2f>& getBulletsPositions();
-	void start();
+	void clear();
 	void remove(sf::Vector2f pos);
 	sf::Vector2f getSize() const;
 

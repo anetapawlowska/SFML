@@ -57,6 +57,11 @@ Enemy::Action Enemy::getAction() const
 	return m_action;
 }
 
+Enemy::EnemyType Enemy::getType() const
+{
+	return m_type;
+}
+
 void Enemy::attack(sf::Vector2f step)
 {
 	m_action = Action::attack;

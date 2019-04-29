@@ -26,6 +26,7 @@ public:
 	sf::Vector2f getPosition() const;
 	sf::Vector2f getStep() const;
 	Action getAction() const;
+	EnemyType getType() const;
 	void attack(sf::Vector2f step);
 
 private:

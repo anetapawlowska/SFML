@@ -45,7 +45,7 @@ std::vector<sf::Vector2f>& Bullets::getBulletsPositions()
 	return m_bullets;
 }
 
-void Bullets::start()
+void Bullets::clear()
 {
 	m_bullets.clear();
 }

@@ -4,8 +4,11 @@
 #include "Player.h"
 #include "Enemies.h"
 #include "Bullets.h"
+#include "Enemy.h"
+#include "StateManager.h"
+#include "SharedContext.h"
 
-GameState::GameState()
+GameState::GameState(StateManager* stateManager) : m_stateManager{ stateManager }
 {
 	const sf::Vector2f windowSize{ 400.0f, 480.0f };
 	const float playersBulletStep = -10.0f;
@@ -22,14 +25,23 @@ GameState::GameState()
 	const sf::Vector2f playersSize{ 16.0f, 16.0f };
 	const sf::Vector2f enemiesSize{ 16.0f, 16.0f };
 
-
-
 	m_playersBullets = std::make_unique<Bullets>(windowSize, playersBulletsSize, playersBulletStep, playersBulletsColor);
 	m_player = std::make_unique<Player>(m_playersBullets.get(), windowSize, playersSize, playersStep, playersColor);
 	m_enemiesBullets = std::make_unique<Bullets>(windowSize, enemiesBulletsSize, enemysBulletStep, enemiesBulletsColor);
 	m_enemies = std::make_unique<Enemies>(m_enemiesBullets.get(), windowSize, enemiesSize, enemiesFirstStep, enemysColor);
-}
 
+	m_font.loadFromFile("arial.ttf");
+	m_pointsText.setFont(m_font);
+	m_pointsText.setCharacterSize(15);
+	m_pointsText.setFillColor(sf::Color::White);
+
+	m_livesText.setFont(m_font);
+	m_livesText.setCharacterSize(15);
+	m_livesText.setFillColor(sf::Color::White);
+	m_livesText.setString("Lives: " + std::to_string(m_lives));
+	sf::FloatRect textRect = m_livesText.getLocalBounds();
+	m_livesText.setPosition(windowSize.x - textRect.width, 0.0f);
+}
 
 GameState::~GameState()
 {
@@ -48,8 +60,6 @@ void GameState::handleInput(sf::RenderWindow* window)
 			m_player->moveLeft();
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
 			m_player->shoot();
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
-			m_enemies->add();
 	}
 }
 
@@ -62,6 +72,7 @@ void GameState::update(float deltaTime)
 	m_player->update(deltaTime);
 	m_enemiesBullets->update(deltaTime);
 	m_enemies->update(deltaTime);
+	m_pointsText.setString(std::to_string(m_stateManager->getSharedContext()->points));
 }
 
 void GameState::render(sf::RenderWindow* window)
@@ -70,13 +81,20 @@ void GameState::render(sf::RenderWindow* window)
 	m_player->render(window);
 	m_enemies->render(window);
 	m_enemiesBullets->render(window);
+	window->draw(m_pointsText);
+	window->draw(m_livesText);
 }
 
 void GameState::onEnter()
-{}
+{
+	m_stateManager->getSharedContext()->points = 0;
+	m_lives = 3;
+}
 
 void GameState::onLeave()
-{}
+{
+	clear();
+}
 
 void GameState::checkCollisions()
 {
@@ -86,7 +104,7 @@ void GameState::checkCollisions()
 	{
 		bullet.setPosition(bulletPos.x, bulletPos.y);
 		if (isCollision(m_player->getPlayerShape(), bullet))
-			start();
+			killed();
 	}
 
 	auto enemies = m_enemies->getEnemies();
@@ -95,7 +113,7 @@ void GameState::checkCollisions()
 	{
 		enemy.setPosition(enemyPos.getPosition());
 		if (isCollision(m_player->getPlayerShape(), enemy))
-			start();
+			killed();
 	}
 
 	auto playerBullets = m_playersBullets->getBulletsPositions();
@@ -108,6 +126,7 @@ void GameState::checkCollisions()
 			if (isCollision(bullet, enemy))
 			{
 				m_enemies->killed(enemyPos.getPosition());
+				addPointsForKill(enemyPos.getAction(), enemyPos.getType());
 				m_playersBullets->remove(bulletPos);
 			}
 		}
@@ -121,8 +140,31 @@ bool GameState::isCollision(sf::RectangleShape first, sf::RectangleShape second)
 
 void GameState::start()
 {
+	clear();
+	m_livesText.setString("Lives: " + std::to_string(m_lives));
 	m_player->start();
-	m_playersBullets->start();
-	m_enemiesBullets->start();
-	m_enemies->start();
+	m_enemies->add();
+}
+
+void GameState::clear()
+{
+	m_enemies->clear();
+	m_playersBullets->clear();
+	m_enemiesBullets->clear();
+}
+
+void GameState::addPointsForKill(Enemy::Action action, Enemy::EnemyType type)
+{
+	unsigned points = (type == Enemy::EnemyType::shooter) ? 100 : 50;
+	points *= (action == Enemy::Action::attack) ? 2 : 1;
+	m_stateManager->getSharedContext()->points += points;
+}
+
+void GameState::killed()
+{
+	--m_lives;
+	if (m_lives == 0)
+		m_stateManager->setNextState(StateManager::States::GameOver);
+	else
+		start();
 }

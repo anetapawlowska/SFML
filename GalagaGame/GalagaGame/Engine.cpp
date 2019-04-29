@@ -5,7 +5,7 @@
 Engine::Engine()
 {
 	m_window.create({ 400, 480, 32 }, "Galaga", sf::Style::Default);
-	m_stateManager = std::make_unique<StateManager>();
+	m_stateManager = std::make_unique<StateManager>(&m_shared);
 }
 
 
