@@ -42,10 +42,12 @@ void GameState::handleInput(sf::RenderWindow* window)
 	{
 		if (event.type == sf::Event::Closed)
 			window->close();
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right)
-			m_player->moveRight();
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left)
-			m_player->moveLeft();
+		if (event.type == sf::Event::KeyPressed && 
+			(event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::Left))
+			keyPressed(event.key.code);
+		if (event.type == sf::Event::KeyReleased &&
+			(event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::Left))
+			keyReleased(event.key.code);
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
 			m_player->shoot();
 	}
@@ -54,6 +56,7 @@ void GameState::handleInput(sf::RenderWindow* window)
 void GameState::update(float deltaTime) 
 {
 	checkCollisions();
+	checkPlayersMove();
 	m_playersBullets->update(deltaTime);
 	m_player->update(deltaTime);
 	m_enemiesBullets->update(deltaTime);
@@ -73,7 +76,8 @@ void GameState::render(sf::RenderWindow* window)
 void GameState::onEnter()
 {
 	m_stateManager->getSharedContext()->points = 0;
-	m_lives = 3;
+	m_pointsText.setString(std::to_string(m_stateManager->getSharedContext()->points));
+	m_lives = m_stateManager->getSharedContext()->config->lives;
 	m_level = 0;
 	start();
 }
@@ -169,7 +173,54 @@ void GameState::nextLevel()
 	start();
 }
 
+void GameState::keyPressed(sf::Keyboard::Key key)
+{
+	if (key != sf::Keyboard::Key::Right && key != sf::Keyboard::Key::Left)
+		return;
+
+	m_isKeyPressed = true;
+	m_playersDirection = key == sf::Keyboard::Key::Right ? PlayersDirection::right : PlayersDirection::left;
+	m_keyPressedCounter = 0;
+}
+
+void GameState::keyReleased(sf::Keyboard::Key key)
+{
+	if ((key == sf::Keyboard::Key::Right && m_playersDirection == PlayersDirection::right) ||
+		(key == sf::Keyboard::Key::Left && m_playersDirection == PlayersDirection::left))
+		m_isKeyPressed = false;
+}
+
+void GameState::checkPlayersMove()
+{
+	if (m_playersDirection == PlayersDirection::none)
+		return;
+
+	if (m_isKeyPressed)
+		++m_keyPressedCounter;
+	else if (m_keyPressedCounter > 0)
+		--m_keyPressedCounter;
+
+	if (m_keyPressedCounter == 0)
+	{
+		m_playersDirection = PlayersDirection::none;
+		return;
+	}
+
+	float step = getPlayersStep();
+	if (m_playersDirection == PlayersDirection::left)
+		step *= -1;
+	m_player->move(step);
+}
+
 // ========================== dummy logic ===============================
+
+float GameState::getPlayersStep() const
+{
+	const float multiplier = 0.5f;
+	float step = m_stateManager->getSharedContext()->config->playersStep;
+	step += m_keyPressedCounter * multiplier;
+	return step;
+}
 
 void GameState::addPointsForKill(Enemy::Action action, Enemy::EnemyType type)
 {

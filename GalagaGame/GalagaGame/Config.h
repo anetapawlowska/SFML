@@ -29,24 +29,26 @@ struct Config
 		cfgFile.close();
 	}
 
-	sf::Vector2u windowSize{ 400, 480 };
-	sf::Vector2f playersSize{ 16.0f, 16.0f };
-	sf::Vector2f enemiesSize{ 16.0f, 16.0f };
-	sf::Vector2f bulletsSize{ 4.0f, 4.0f };
+	const unsigned lives = 3;
+
+	const sf::Vector2u windowSize{ 400, 480 };
+	const sf::Vector2f playersSize{ 16.0f, 16.0f };
+	const sf::Vector2f enemiesSize{ 16.0f, 16.0f };
+	const sf::Vector2f bulletsSize{ 4.0f, 4.0f };
 	
 	float bulletsStep{ 10.0f };
 	float playersStep{ 8.0f };
 	float enemiesFirstLevelStep{ 6.0f };
 	float nextLevelAcceleration{ 2.0f };
 
-	unsigned numOfEnemiesRowsInFirstLevel{ 3 };
-	float numOfEnemiesRowsMultiplier{ 0.5 };
+	const unsigned numOfEnemiesRowsInFirstLevel{ 3 };
+	const float numOfEnemiesRowsMultiplier{ 0.5 };
 
-	sf::Color playersColor{ sf::Color::Green };
-	sf::Color shootersColor{ sf::Color::Red };
-	sf::Color nonShootersColor{ sf::Color::Blue };
-	sf::Color playersBulletsColor { sf::Color::Yellow };
-	sf::Color enemiesBulletsColor{ sf::Color::Yellow };
+	const sf::Color playersColor{ sf::Color::Green };
+	const sf::Color shootersColor{ sf::Color::Red };
+	const sf::Color nonShootersColor{ sf::Color::Blue };
+	const sf::Color playersBulletsColor { sf::Color::Yellow };
+	const sf::Color enemiesBulletsColor{ sf::Color::Yellow };
 private:
 	void createConfig()
 	{

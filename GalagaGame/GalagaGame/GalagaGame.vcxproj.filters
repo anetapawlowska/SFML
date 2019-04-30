@@ -63,14 +63,14 @@
     <ClInclude Include="GameState.h">
       <Filter>Game\GameState</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Game\GameOverState</Filter>
-    </ClInclude>
-    <ClInclude Include="GameOverState.h">
-      <Filter>Game\StartState</Filter>
-    </ClInclude>
     <ClInclude Include="StartState.h">
       <Filter>Game\StartState</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverState.h">
+      <Filter>Game\GameOverState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

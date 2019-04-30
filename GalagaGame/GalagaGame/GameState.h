@@ -23,6 +23,13 @@ public:
 
 
 private:
+	enum class PlayersDirection
+	{
+		none,
+		right,
+		left
+	};
+
 	void start();
 	void checkCollisions();
 	bool isCollision(sf::RectangleShape first, sf::RectangleShape second) const;
@@ -31,6 +38,10 @@ private:
 	void killTheEnemy(Enemy enemy, sf::Vector2f bulletPos);
 	void clear();
 	void nextLevel();
+	void keyPressed(sf::Keyboard::Key key);
+	void keyReleased(sf::Keyboard::Key key);
+	void checkPlayersMove();
+	float getPlayersStep() const;
 
 	StateManager* m_stateManager;
 	std::unique_ptr<Player> m_player;
@@ -38,12 +49,14 @@ private:
 	std::unique_ptr<Enemies> m_enemies;
 	std::unique_ptr<Bullets> m_enemiesBullets;
 
+	unsigned m_keyPressedCounter{0};
+	bool m_isKeyPressed{ false };
+	PlayersDirection m_playersDirection{ PlayersDirection::none };
+
 	sf::Text m_pointsText;
 	sf::Font m_font;
-
-	unsigned m_lives{ 3 };
+	unsigned m_lives{};
 	sf::Text m_livesText;
-
-	unsigned m_level{ 0 };
+	unsigned m_level{};
 };
 

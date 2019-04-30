@@ -12,11 +12,10 @@ public:
 	void update(float deltaTime);
 	void render(sf::RenderWindow* renderWindow);
 
-	void moveLeft();
-	void moveRight();
-	void shoot();
-	sf::RectangleShape& getPlayerShape();
 	void start();
+	void shoot();
+	void move(float step);
+	sf::RectangleShape& getPlayerShape();
 
 private:
 	sf::RectangleShape m_player;
