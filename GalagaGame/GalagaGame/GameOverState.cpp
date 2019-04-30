@@ -5,10 +5,10 @@
 
 GameOverState::GameOverState(StateManager* stateManager) : m_stateManager{ stateManager }
 {
-	const sf::Vector2f windowSize{ 400.0f, 480.0f };
+	const auto windowSize = m_stateManager->getSharedContext()->windowSize;
 	m_font.loadFromFile("arial.ttf");
 	m_text.setFont(m_font);
-	m_text.setString("Game Over\n\n You won " + std::to_string(m_stateManager->getSharedContext()->points) + "\n\n Press Enter to start again...");
+	setText();
 	m_text.setCharacterSize(15);
 	m_text.setFillColor(sf::Color::White);
 	sf::FloatRect textRect = m_text.getLocalBounds();
@@ -41,10 +41,16 @@ void GameOverState::render(sf::RenderWindow* window)
 	window->draw(m_text);
 }
 
-void GameOverState::onEnter() 
+void GameOverState::onEnter()
 {
-	m_text.setString("Game Over\n\n You won " + std::to_string(m_stateManager->getSharedContext()->points) + "\n\n Press Enter to start again...");
+	setText();
 }
 
 void GameOverState::onLeave() 
 {}
+
+void GameOverState::setText()
+{
+	m_text.setString("Game Over\n\nYou won " + std::to_string(m_stateManager->getSharedContext()->points) + "\n\nPress Enter to start again...");
+}
+

@@ -30,7 +30,7 @@ private:
 	void killed();
 	void clear();
 
-	StateManager * m_stateManager;
+	StateManager* m_stateManager;
 	std::unique_ptr<Player> m_player;
 	std::unique_ptr<Bullets> m_playersBullets;
 	std::unique_ptr<Enemies> m_enemies;

@@ -2,7 +2,7 @@
 #include "Bullets.h"
 
 
-Bullets::Bullets(sf::Vector2f windowSize, sf::Vector2f size, float step, sf::Color color) : m_windowSize{ windowSize }, 
+Bullets::Bullets(sf::Vector2u windowSize, sf::Vector2f size, float step, sf::Color color) : m_windowSize{ windowSize },
 m_size{ size }, m_step {step}, m_color{color}
 {
 }

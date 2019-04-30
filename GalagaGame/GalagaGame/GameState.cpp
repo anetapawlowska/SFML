@@ -10,7 +10,7 @@
 
 GameState::GameState(StateManager* stateManager) : m_stateManager{ stateManager }
 {
-	const sf::Vector2f windowSize{ 400.0f, 480.0f };
+	const auto windowSize = m_stateManager->getSharedContext()->windowSize;
 	const float playersBulletStep = -10.0f;
 	const float enemysBulletStep = 10.0f;
 	const sf::Color playersColor = sf::Color::Red;

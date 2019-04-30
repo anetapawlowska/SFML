@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Bullets.h"
 
-Player::Player(Bullets* bullets, sf::Vector2f windowSize, sf::Vector2f size, float step, sf::Color color) :
+Player::Player(Bullets* bullets, sf::Vector2u windowSize, sf::Vector2f size, float step, sf::Color color) :
 m_bullets{bullets}, m_windowSize{windowSize}, m_size{size}, m_step{step}
 {
 	m_player.setSize(m_size);

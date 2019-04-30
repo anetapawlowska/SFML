@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <cmath>
 
-Enemies::Enemies(Bullets* enemiesBullets, sf::Vector2f windowSize, sf::Vector2f size, float step, sf::Color color) : m_windowSize{ windowSize },
+Enemies::Enemies(Bullets* enemiesBullets, sf::Vector2u windowSize, sf::Vector2f size, float step, sf::Color color) : m_windowSize{ windowSize },
 m_bullets{ enemiesBullets }, m_size{ size }, m_step{step}, m_color{color}
 {
 }

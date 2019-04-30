@@ -4,7 +4,7 @@
 class Enemy
 {
 public:
-	Enemy(sf::Vector2f windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position);
+	Enemy(sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position);
 	~Enemy();
 
 	enum class EnemyType
@@ -31,7 +31,7 @@ public:
 
 private:
 	sf::Color m_color;
-	sf::Vector2f m_windowSize;
+	sf::Vector2u m_windowSize;
 	sf::Vector2f m_size;
 	sf::Vector2f m_step{ 0.0f, 0.0f };
 	sf::Vector2f m_position;

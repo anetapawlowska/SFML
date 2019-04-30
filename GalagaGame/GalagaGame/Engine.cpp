@@ -5,9 +5,9 @@
 Engine::Engine()
 {
 	m_window.create({ 400, 480, 32 }, "Galaga", sf::Style::Default);
-	m_stateManager = std::make_unique<StateManager>(&m_shared);
+	m_shared = std::make_unique<SharedContext>(m_window.getSize());
+	m_stateManager = std::make_unique<StateManager>(m_shared.get());
 }
-
 
 Engine::~Engine()
 {

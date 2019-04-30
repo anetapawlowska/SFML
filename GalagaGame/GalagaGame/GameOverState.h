@@ -17,6 +17,8 @@ public:
 	void onLeave() override;
 
 private:
+	void setText();
+
 	sf::Text m_text;
 	sf::Font m_font;
 

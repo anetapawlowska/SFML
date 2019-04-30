@@ -6,7 +6,7 @@
 class Enemies
 {
 public:
-	Enemies(Bullets* enemiesBullets, sf::Vector2f windowSize, sf::Vector2f size, float step, sf::Color color);
+	Enemies(Bullets* enemiesBullets, sf::Vector2u windowSize, sf::Vector2f size, float step, sf::Color color);
 	~Enemies();
 
 	void update(float deltaTime);
@@ -24,7 +24,7 @@ private:
 	const float m_step;
 	const float m_smallStep{0.5};
 	float m_timeElapsed;
-	const sf::Vector2f m_windowSize;
+	const sf::Vector2u m_windowSize;
 	const sf::Vector2f m_size;
 	const unsigned m_swayInOneDirection = 10;
 	unsigned m_sways = 0;

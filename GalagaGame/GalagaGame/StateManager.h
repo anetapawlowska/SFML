@@ -30,6 +30,5 @@ protected:
 	std::shared_ptr<State> m_currentState;
 	std::map<States, std::shared_ptr<State>> m_states;
 	SharedContext* m_shared;
-
 };
 

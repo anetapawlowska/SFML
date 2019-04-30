@@ -2,7 +2,7 @@
 #include "Enemy.h"
 
 
-Enemy::Enemy(sf::Vector2f windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position) : 
+Enemy::Enemy(sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position) :
 	m_windowSize{ windowSize }, m_size{ size }, m_color{ color }, m_position{ position }, m_startPosition{ position }
 {
 }
