@@ -3,8 +3,8 @@
 #include <cstdlib>
 #include <cmath>
 
-Enemies::Enemies(Bullets* enemiesBullets, sf::Vector2u windowSize, sf::Vector2f size, float step, sf::Color color) : m_windowSize{ windowSize },
-m_bullets{ enemiesBullets }, m_size{ size }, m_step{step}, m_color{color}
+Enemies::Enemies(Bullets* enemiesBullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color color) : m_windowSize{ windowSize },
+m_bullets{ enemiesBullets }, m_size{ size }, m_color{color}
 {
 }
 
@@ -37,9 +37,11 @@ void Enemies::render(sf::RenderWindow* window)
 		enemy.render(window);
 }
 
-void Enemies::add()
+void Enemies::add(unsigned numOfRows, float step)
 {
-	const unsigned numOfRows = 3;
+	m_step = step;
+
+	const float fromCeiling = 32.0f;
 	const float fromWall = 50.f;
 	const float spaces = 8.f;
 
@@ -49,7 +51,7 @@ void Enemies::add()
 	for (unsigned row = 0; row < numOfRows; ++row)
 		for (unsigned i = 0; i < inRow; ++i)
 		{
-			sf::Vector2f position{ startPoint + i * (m_size.x + spaces), 32.0f + row * (m_size.y + spaces) };
+			sf::Vector2f position{ startPoint + i * (m_size.x + spaces), fromCeiling + row * (m_size.y + spaces) };
 			m_enemies.push_back(Enemy(m_windowSize, m_size, m_color, position));
 		}
 }

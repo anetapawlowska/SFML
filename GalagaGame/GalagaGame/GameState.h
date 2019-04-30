@@ -27,7 +27,8 @@ private:
 	void checkCollisions();
 	bool isCollision(sf::RectangleShape first, sf::RectangleShape second) const;
 	void addPointsForKill(Enemy::Action action, Enemy::EnemyType type);
-	void killed();
+	void killMe();
+	void killTheEnemy(Enemy enemy, sf::Vector2f bulletPos);
 	void clear();
 
 	StateManager* m_stateManager;
@@ -41,5 +42,7 @@ private:
 
 	unsigned m_lives{ 3 };
 	sf::Text m_livesText;
+
+	unsigned m_level{ 0 };
 };
 

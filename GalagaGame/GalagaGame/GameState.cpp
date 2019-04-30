@@ -13,10 +13,10 @@ GameState::GameState(StateManager* stateManager) : m_stateManager{ stateManager 
 {
 	Config* config = m_stateManager->getSharedContext()->config;
 
-	m_playersBullets = std::make_unique<Bullets>(config->windowSize, config->playersBulletsSize, config->playersBulletStep, config->playersBulletsColor);
+	m_playersBullets = std::make_unique<Bullets>(config->windowSize, config->playersBulletsSize, config->playersBulletsColor);
 	m_player = std::make_unique<Player>(m_playersBullets.get(), config->windowSize, config->playersSize, config->playersStep, config->playersColor);
-	m_enemiesBullets = std::make_unique<Bullets>(config->windowSize, config->enemiesBulletsSize, config->enemysBulletStep, config->enemiesBulletsColor);
-	m_enemies = std::make_unique<Enemies>(m_enemiesBullets.get(), config->windowSize, config->enemiesSize, config->enemiesFirstLevelStep, config->enemysColor);
+	m_enemiesBullets = std::make_unique<Bullets>(config->windowSize, config->enemiesBulletsSize, config->enemiesBulletsColor);
+	m_enemies = std::make_unique<Enemies>(m_enemiesBullets.get(), config->windowSize, config->enemiesSize, config->enemysColor);
 
 	m_font.loadFromFile("arial.ttf");
 	m_pointsText.setFont(m_font);
@@ -53,8 +53,6 @@ void GameState::handleInput(sf::RenderWindow* window)
 
 void GameState::update(float deltaTime) 
 {
-	if (m_enemies->getEnemies().empty())
-		start();
 	checkCollisions();
 	m_playersBullets->update(deltaTime);
 	m_player->update(deltaTime);
@@ -77,6 +75,8 @@ void GameState::onEnter()
 {
 	m_stateManager->getSharedContext()->points = 0;
 	m_lives = 3;
+	m_level = 0;
+	start();
 }
 
 void GameState::onLeave()
@@ -87,35 +87,38 @@ void GameState::onLeave()
 void GameState::checkCollisions()
 {
 	auto bullets = m_enemiesBullets->getBulletsPositions();
-	sf::RectangleShape bullet{ sf::Vector2f{ 4.0f, 16.0f } };
+	sf::RectangleShape bulletShape{ sf::Vector2f{ 4.0f, 16.0f } };
 	for (auto bulletPos : bullets)
 	{
-		bullet.setPosition(bulletPos.x, bulletPos.y);
-		if (isCollision(m_player->getPlayerShape(), bullet))
-			killed();
+		bulletShape.setPosition(bulletPos.x, bulletPos.y);
+		if (isCollision(m_player->getPlayerShape(), bulletShape))
+			killMe();
 	}
 
 	auto enemies = m_enemies->getEnemies();
-	sf::RectangleShape enemy{ sf::Vector2f{ 16.0f, 16.0f } };
+	sf::RectangleShape enemysShape{ sf::Vector2f{ 16.0f, 16.0f } };
 	for (auto enemyPos : enemies)
 	{
-		enemy.setPosition(enemyPos.getPosition());
-		if (isCollision(m_player->getPlayerShape(), enemy))
-			killed();
+		enemysShape.setPosition(enemyPos.getPosition());
+		if (isCollision(m_player->getPlayerShape(), enemysShape))
+			killMe();
 	}
 
 	auto playerBullets = m_playersBullets->getBulletsPositions();
-	for (auto enemyPos : enemies)
+	for (auto enemy : enemies)
 	{
-		enemy.setPosition(enemyPos.getPosition());
+		enemysShape.setPosition(enemy.getPosition());
 		for (auto bulletPos : playerBullets)
 		{
-			bullet.setPosition(bulletPos.x, bulletPos.y);
-			if (isCollision(bullet, enemy))
+			bulletShape.setPosition(bulletPos.x, bulletPos.y);
+			if (isCollision(bulletShape, enemysShape))
 			{
-				m_enemies->killed(enemyPos.getPosition());
-				addPointsForKill(enemyPos.getAction(), enemyPos.getType());
-				m_playersBullets->remove(bulletPos);
+				killTheEnemy(enemy, bulletPos);
+				if (m_enemies->getEnemies().empty())
+				{
+					++m_level;
+					start();
+				}
 			}
 		}
 	}
@@ -128,10 +131,19 @@ bool GameState::isCollision(sf::RectangleShape first, sf::RectangleShape second)
 
 void GameState::start()
 {
+	Config* config = m_stateManager->getSharedContext()->config;
+	
 	clear();
 	m_livesText.setString("Lives: " + std::to_string(m_lives));
 	m_player->start();
-	m_enemies->add();
+
+	const float bulletsStep = config->bulletsStep + m_level * config->nextLevelAcceleration;
+	m_enemiesBullets->setStep(bulletsStep);
+	m_playersBullets->setStep(-1 * bulletsStep);
+
+	const unsigned numOfEnemiesRows = static_cast<unsigned>(config->numOfEnemiesRowsInFirstLevel + m_level * config->numOfEnemiesRowsMultiplier);
+	const float enemiesSteps = config->enemiesFirstLevelStep + m_level * config->nextLevelAcceleration;
+	m_enemies->add(numOfEnemiesRows, enemiesSteps );
 }
 
 void GameState::clear()
@@ -148,11 +160,18 @@ void GameState::addPointsForKill(Enemy::Action action, Enemy::EnemyType type)
 	m_stateManager->getSharedContext()->points += points;
 }
 
-void GameState::killed()
+void GameState::killMe()
 {
 	--m_lives;
 	if (m_lives == 0)
 		m_stateManager->setNextState(StateManager::States::GameOver);
 	else
 		start();
+}
+
+void GameState::killTheEnemy(Enemy enemy, sf::Vector2f bulletPos)
+{
+	m_enemies->killed(enemy.getPosition());
+	addPointsForKill(enemy.getAction(), enemy.getType());
+	m_playersBullets->remove(bulletPos);
 }

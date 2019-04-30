@@ -34,10 +34,14 @@ struct Config
 	sf::Vector2f enemiesSize{ 16.0f, 16.0f };
 	sf::Vector2f enemiesBulletsSize{ 4.0f, 4.0f };
 	sf::Vector2f playersBulletsSize{ 4.0f, 4.0f };
-	float playersBulletStep { -10.0f };
-	float enemysBulletStep{ 10.0f };
+	
+	float bulletsStep{ 10.0f };
 	float playersStep{ 8.0f };
-	float enemiesFirstLevelStep{ 4.0f };
+	float enemiesFirstLevelStep{ 6.0f };
+	float nextLevelAcceleration{ 2.0f };
+
+	unsigned numOfEnemiesRowsInFirstLevel{ 3 };
+	float numOfEnemiesRowsMultiplier{ 0.5 };
 
 	sf::Color playersColor{ sf::Color::Red };
 	sf::Color enemysColor { sf::Color::Blue };
@@ -46,30 +50,10 @@ struct Config
 private:
 	void createConfig()
 	{
-		const auto windowSizeX = static_cast<unsigned>(values["windowSizeX"]);
-		const auto windowSizeY = static_cast<unsigned>(values["windowSizeY"]);
-		windowSize = { windowSizeX, windowSizeY };
-
-		const auto playersSizeX = values["playersSizeX"];
-		const auto playersSizeY = values["playersSizeY"];
-		playersSize = { playersSizeX, playersSizeY };
-
-		const auto enemiesSizeX = values["enemiesSizeX"];
-		const auto enemiesSizeY = values["enemiesSizeY"];
-		enemiesSize = { enemiesSizeX, enemiesSizeY };
-
-		const auto enemiesBulletsSizeX = values["enemiesBulletsSizeX"];
-		const auto enemiesBulletsSizeY = values["enemiesBulletsSizeY"];
-		enemiesBulletsSize = { enemiesBulletsSizeX, enemiesBulletsSizeY };
-
-		const auto playersBulletsSizeX = values["playersBulletsSizeX"];
-		const auto playersBulletsSizeY = values["playersBulletsSizeY"];
-		playersBulletsSize = { playersBulletsSizeX, playersBulletsSizeY };
-
-		playersBulletStep = values["playersBulletStep"];
-		enemysBulletStep = values["enemysBulletStep"];
+		bulletsStep = values["bulletsStep"];
 		playersStep = values["playersStep"];
 		enemiesFirstLevelStep = values["enemiesFirstLevelStep"];
+		nextLevelAcceleration = values["enemiesNextLevelAcceleration"];
 	}
 	std::map<std::string, float> values;
 };

@@ -2,8 +2,8 @@
 #include "Bullets.h"
 
 
-Bullets::Bullets(sf::Vector2u windowSize, sf::Vector2f size, float step, sf::Color color) : m_windowSize{ windowSize },
-m_size{ size }, m_step {step}, m_color{color}
+Bullets::Bullets(sf::Vector2u windowSize, sf::Vector2f size, sf::Color color) : m_windowSize{ windowSize },
+m_size{ size }, m_color{color}
 {
 }
 
@@ -60,4 +60,9 @@ void Bullets::remove(sf::Vector2f pos)
 sf::Vector2f Bullets::getSize() const
 {
 	return m_size;
+}
+
+void Bullets::setStep(float step)
+{
+	m_step = step;
 }

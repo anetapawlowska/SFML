@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{7ae64cac-9cae-4164-ad02-08b847c7cc71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{f4fb121c-2333-450b-9c54-530cca8d067d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -22,75 +28,75 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemies.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullets.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>Header Files</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="StateManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StartState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameOverState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SharedContext.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Bullets.h">
+      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Config.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemies.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverState.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedContext.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="StartState.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GalagaGame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Engine.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemies.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GalagaGame.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="StateManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Bullets.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="StartState.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Enemies.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="GameOverState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="StartState.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
