@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Bullets.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Engine.h" />

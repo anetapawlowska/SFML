@@ -1,10 +1,11 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+#include "Config.h"
 
 struct SharedContext
 {
-	SharedContext(sf::Vector2u windowSize) : windowSize{ windowSize } {}
+	SharedContext(Config* config) : config{ config } {}
 	
-	sf::Vector2u windowSize;
+	Config* config;
 	long long unsigned points;
 };

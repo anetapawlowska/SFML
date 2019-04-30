@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include "SharedContext.h"
+#include "Config.h"
+
 class StateManager;
 
 class Engine
@@ -21,6 +23,7 @@ public:
 private:
 	std::unique_ptr<StateManager> m_stateManager;
 	std::unique_ptr<SharedContext> m_shared;
+	Config m_config;
 
 	sf::RenderWindow m_window;
 	sf::Clock m_clock;

@@ -7,28 +7,16 @@
 #include "Enemy.h"
 #include "StateManager.h"
 #include "SharedContext.h"
+#include "Config.h"
 
 GameState::GameState(StateManager* stateManager) : m_stateManager{ stateManager }
 {
-	const auto windowSize = m_stateManager->getSharedContext()->windowSize;
-	const float playersBulletStep = -10.0f;
-	const float enemysBulletStep = 10.0f;
-	const sf::Color playersColor = sf::Color::Red;
-	const sf::Color enemysColor = sf::Color::Blue;
-	const sf::Color playersBulletsColor = sf::Color::White;
-	const sf::Color enemiesBulletsColor = sf::Color::White;
-	const float playersStep = 8.0f;
-	const float enemiesFirstStep = 4.0f;
-	const float enemiesSway = 0.5f;
-	const sf::Vector2f enemiesBulletsSize{ 4.0f, 4.0f };
-	const sf::Vector2f playersBulletsSize{ 4.0f, 4.0f };
-	const sf::Vector2f playersSize{ 16.0f, 16.0f };
-	const sf::Vector2f enemiesSize{ 16.0f, 16.0f };
+	Config* config = m_stateManager->getSharedContext()->config;
 
-	m_playersBullets = std::make_unique<Bullets>(windowSize, playersBulletsSize, playersBulletStep, playersBulletsColor);
-	m_player = std::make_unique<Player>(m_playersBullets.get(), windowSize, playersSize, playersStep, playersColor);
-	m_enemiesBullets = std::make_unique<Bullets>(windowSize, enemiesBulletsSize, enemysBulletStep, enemiesBulletsColor);
-	m_enemies = std::make_unique<Enemies>(m_enemiesBullets.get(), windowSize, enemiesSize, enemiesFirstStep, enemysColor);
+	m_playersBullets = std::make_unique<Bullets>(config->windowSize, config->playersBulletsSize, config->playersBulletStep, config->playersBulletsColor);
+	m_player = std::make_unique<Player>(m_playersBullets.get(), config->windowSize, config->playersSize, config->playersStep, config->playersColor);
+	m_enemiesBullets = std::make_unique<Bullets>(config->windowSize, config->enemiesBulletsSize, config->enemysBulletStep, config->enemiesBulletsColor);
+	m_enemies = std::make_unique<Enemies>(m_enemiesBullets.get(), config->windowSize, config->enemiesSize, config->enemiesFirstLevelStep, config->enemysColor);
 
 	m_font.loadFromFile("arial.ttf");
 	m_pointsText.setFont(m_font);
@@ -40,7 +28,7 @@ GameState::GameState(StateManager* stateManager) : m_stateManager{ stateManager 
 	m_livesText.setFillColor(sf::Color::White);
 	m_livesText.setString("Lives: " + std::to_string(m_lives));
 	sf::FloatRect textRect = m_livesText.getLocalBounds();
-	m_livesText.setPosition(windowSize.x - textRect.width, 0.0f);
+	m_livesText.setPosition(config->windowSize.x - textRect.width, 0.0f);
 }
 
 GameState::~GameState()

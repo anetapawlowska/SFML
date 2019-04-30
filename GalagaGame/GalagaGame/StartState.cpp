@@ -3,10 +3,11 @@
 #include "StateManager.h"
 #include "GameState.h"
 #include "SharedContext.h"
+#include "Config.h"
 
 StartState::StartState(StateManager* stateManager): m_stateManager{stateManager}
 {
-	const auto windowSize = m_stateManager->getSharedContext()->windowSize;
+	const auto windowSize = m_stateManager->getSharedContext()->config->windowSize;
 	m_font.loadFromFile("arial.ttf");
 	m_text.setFont(m_font);
 	m_text.setString("Press Enter to start...");

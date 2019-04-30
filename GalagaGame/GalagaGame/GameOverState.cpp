@@ -2,10 +2,11 @@
 #include "GameOverState.h"
 #include "StateManager.h"
 #include "SharedContext.h"
+#include "Config.h"
 
 GameOverState::GameOverState(StateManager* stateManager) : m_stateManager{ stateManager }
 {
-	const auto windowSize = m_stateManager->getSharedContext()->windowSize;
+	const auto windowSize = m_stateManager->getSharedContext()->config->windowSize;
 	m_font.loadFromFile("arial.ttf");
 	m_text.setFont(m_font);
 	setText();

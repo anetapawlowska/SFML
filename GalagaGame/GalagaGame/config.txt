@@ -1,0 +1,14 @@
+windowSizeX 600
+windowSizeY 480
+playersSizeX 16.0f
+playersSizeY 16.0f
+enemiesSizeX 16.0f
+enemiesSizeY 16.0f
+enemiesBulletsSizeX 4.0f
+enemiesBulltesSizeY 4.0f
+playersBulletsSize 4.0f
+playersBulletsSize 4.0f
+playersBulletStep 10.0f
+enemysBulletStep 10.0f
+playersStep 8.0f
+enemiesFirstLevelStep 4.0f
