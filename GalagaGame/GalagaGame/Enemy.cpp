@@ -2,11 +2,11 @@
 #include "Enemy.h"
 
 
-Enemy::Enemy(sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position) :
-	m_windowSize{ windowSize }, m_size{ size }, m_color{ color }, m_position{ position }, m_startPosition{ position }
+Enemy::Enemy(sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position, EnemyType type) : m_shape{ size },
+m_windowSize{ windowSize }, m_position{ position }, m_startPosition{ position }, m_type{ type }
 {
+	m_shape.setFillColor(color);
 }
-
 
 Enemy::~Enemy()
 {
@@ -16,13 +16,13 @@ void Enemy::update(float deltaTime)
 {
 	if (m_action == Action::attack && m_position.y >= m_windowSize.y)
 	{
-		m_position.y = -m_size.y;
+		m_position.y = -m_shape.getSize().y;
 		m_action = Action::goBack;
 	}
 	if (m_action == Action::goBack && abs(m_position.y - m_startPosition.y) <= abs(m_step.y))
 	{
 		m_position = m_startPosition;
-		m_action = Action::sway;
+		m_action = Action::stayStill;
 		m_step = { 0.0f, 0.0f };
 	}
 
@@ -31,10 +31,8 @@ void Enemy::update(float deltaTime)
 
 void Enemy::render(sf::RenderWindow* window) 
 {
-	sf::RectangleShape shape{ m_size };
-	shape.setFillColor(m_color);
-	shape.setPosition(m_position);
-	window->draw(shape);
+	m_shape.setPosition(m_position);
+	window->draw(m_shape);
 }
 
 void Enemy::changeStep(sf::Vector2f step)
@@ -66,4 +64,9 @@ void Enemy::attack(sf::Vector2f step)
 {
 	m_action = Action::attack;
 	m_step = step;
+}
+
+sf::RectangleShape& Enemy::getShape()
+{
+	return m_shape;
 }

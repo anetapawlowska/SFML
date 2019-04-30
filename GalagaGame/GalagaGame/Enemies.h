@@ -6,19 +6,23 @@
 class Enemies
 {
 public:
-	Enemies(Bullets* enemiesBullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color color);
+	Enemies(Bullets* enemiesBullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color shooterColor, sf::Color nonShooterColor);
 	~Enemies();
 
 	void update(float deltaTime);
 	void render(sf::RenderWindow* window);
-	void add(unsigned numOfRows, float step);
 	void shoot(sf::Vector2f position);
 	void clear();
 	std::vector<Enemy>& getEnemies();
 	void killed(sf::Vector2f pos);
 
+	void add(unsigned numOfRows, float step);
+	bool shouldAttack() const;
+	bool shouldShoot() const;
+
 private:
-	sf::Color m_color;
+	sf::Color m_shooterColor;
+	sf::Color m_nonShooterColor;
 	std::vector<Enemy> m_enemies;
 	Bullets* m_bullets;
 	float m_step{};

@@ -30,6 +30,7 @@ private:
 	void killMe();
 	void killTheEnemy(Enemy enemy, sf::Vector2f bulletPos);
 	void clear();
+	void nextLevel();
 
 	StateManager* m_stateManager;
 	std::unique_ptr<Player> m_player;

@@ -4,9 +4,6 @@
 class Enemy
 {
 public:
-	Enemy(sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position);
-	~Enemy();
-
 	enum class EnemyType
 	{
 		shooter,
@@ -15,10 +12,13 @@ public:
 
 	enum class Action
 	{
-		sway,
+		stayStill,
 		attack,
 		goBack
 	};
+
+	Enemy(sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position, EnemyType type);
+	~Enemy();
 
 	void update(float deltaTime);
 	void render(sf::RenderWindow* window);
@@ -29,14 +29,15 @@ public:
 	EnemyType getType() const;
 	void attack(sf::Vector2f step);
 
+	sf::RectangleShape& getShape();
+
 private:
-	sf::Color m_color;
+	sf::RectangleShape m_shape;
 	sf::Vector2u m_windowSize;
-	sf::Vector2f m_size;
 	sf::Vector2f m_step{ 0.0f, 0.0f };
 	sf::Vector2f m_position;
 	sf::Vector2f m_startPosition;
-	EnemyType m_type{EnemyType::shooter };
-	Action m_action{ Action::sway };
+	EnemyType m_type;
+	Action m_action{ Action::stayStill };
 };
 

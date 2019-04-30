@@ -32,8 +32,7 @@ struct Config
 	sf::Vector2u windowSize{ 400, 480 };
 	sf::Vector2f playersSize{ 16.0f, 16.0f };
 	sf::Vector2f enemiesSize{ 16.0f, 16.0f };
-	sf::Vector2f enemiesBulletsSize{ 4.0f, 4.0f };
-	sf::Vector2f playersBulletsSize{ 4.0f, 4.0f };
+	sf::Vector2f bulletsSize{ 4.0f, 4.0f };
 	
 	float bulletsStep{ 10.0f };
 	float playersStep{ 8.0f };
@@ -43,10 +42,11 @@ struct Config
 	unsigned numOfEnemiesRowsInFirstLevel{ 3 };
 	float numOfEnemiesRowsMultiplier{ 0.5 };
 
-	sf::Color playersColor{ sf::Color::Red };
-	sf::Color enemysColor { sf::Color::Blue };
-	sf::Color playersBulletsColor { sf::Color::White };
-	sf::Color enemiesBulletsColor{ sf::Color::White };
+	sf::Color playersColor{ sf::Color::Green };
+	sf::Color shootersColor{ sf::Color::Red };
+	sf::Color nonShootersColor{ sf::Color::Blue };
+	sf::Color playersBulletsColor { sf::Color::Yellow };
+	sf::Color enemiesBulletsColor{ sf::Color::Yellow };
 private:
 	void createConfig()
 	{

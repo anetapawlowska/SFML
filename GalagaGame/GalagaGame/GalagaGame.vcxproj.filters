@@ -19,6 +19,15 @@
     <Filter Include="Game">
       <UniqueIdentifier>{f4fb121c-2333-450b-9c54-530cca8d067d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\StartState">
+      <UniqueIdentifier>{774c5a9b-0d02-4e87-9eea-bafe5e23e47c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameState">
+      <UniqueIdentifier>{433ee854-27d1-4ade-96e0-bbbb2eca5964}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameOverState">
+      <UniqueIdentifier>{36ec3df4-9e0a-4aaf-80b5-3e00b6fca048}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -33,35 +42,35 @@
     <ClInclude Include="StateManager.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Bullets.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Config.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemies.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="GameOverState.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="SharedContext.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="StartState.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="State.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullets.h">
+      <Filter>Game\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemies.h">
+      <Filter>Game\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Game\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Game\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game\GameOverState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverState.h">
+      <Filter>Game\StartState</Filter>
+    </ClInclude>
+    <ClInclude Include="StartState.h">
+      <Filter>Game\StartState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -78,25 +87,25 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Bullets.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\GameState</Filter>
     </ClCompile>
     <ClCompile Include="Enemies.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\GameState</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="GameOverState.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\GameState</Filter>
     </ClCompile>
     <ClCompile Include="GameState.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\GameState</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverState.cpp">
+      <Filter>Game\GameOverState</Filter>
     </ClCompile>
     <ClCompile Include="StartState.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\StartState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

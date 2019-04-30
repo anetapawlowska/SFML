@@ -13,10 +13,10 @@ GameState::GameState(StateManager* stateManager) : m_stateManager{ stateManager 
 {
 	Config* config = m_stateManager->getSharedContext()->config;
 
-	m_playersBullets = std::make_unique<Bullets>(config->windowSize, config->playersBulletsSize, config->playersBulletsColor);
+	m_playersBullets = std::make_unique<Bullets>(config->windowSize, config->bulletsSize, config->playersBulletsColor);
 	m_player = std::make_unique<Player>(m_playersBullets.get(), config->windowSize, config->playersSize, config->playersStep, config->playersColor);
-	m_enemiesBullets = std::make_unique<Bullets>(config->windowSize, config->enemiesBulletsSize, config->enemiesBulletsColor);
-	m_enemies = std::make_unique<Enemies>(m_enemiesBullets.get(), config->windowSize, config->enemiesSize, config->enemysColor);
+	m_enemiesBullets = std::make_unique<Bullets>(config->windowSize, config->bulletsSize, config->enemiesBulletsColor);
+	m_enemies = std::make_unique<Enemies>(m_enemiesBullets.get(), config->windowSize, config->enemiesSize, config->shootersColor, config->nonShootersColor);
 
 	m_font.loadFromFile("arial.ttf");
 	m_pointsText.setFont(m_font);
@@ -58,7 +58,6 @@ void GameState::update(float deltaTime)
 	m_player->update(deltaTime);
 	m_enemiesBullets->update(deltaTime);
 	m_enemies->update(deltaTime);
-	m_pointsText.setString(std::to_string(m_stateManager->getSharedContext()->points));
 }
 
 void GameState::render(sf::RenderWindow* window)
@@ -86,9 +85,10 @@ void GameState::onLeave()
 
 void GameState::checkCollisions()
 {
-	auto bullets = m_enemiesBullets->getBulletsPositions();
-	sf::RectangleShape bulletShape{ sf::Vector2f{ 4.0f, 16.0f } };
-	for (auto bulletPos : bullets)
+	const auto bulletsSize = m_stateManager->getSharedContext()->config->bulletsSize;
+	sf::RectangleShape bulletShape{bulletsSize};
+	auto bulletsPositions = m_enemiesBullets->getBulletsPositions();
+	for (auto bulletPos : bulletsPositions)
 	{
 		bulletShape.setPosition(bulletPos.x, bulletPos.y);
 		if (isCollision(m_player->getPlayerShape(), bulletShape))
@@ -96,29 +96,23 @@ void GameState::checkCollisions()
 	}
 
 	auto enemies = m_enemies->getEnemies();
-	sf::RectangleShape enemysShape{ sf::Vector2f{ 16.0f, 16.0f } };
-	for (auto enemyPos : enemies)
+	for (auto& enemy : enemies)
 	{
-		enemysShape.setPosition(enemyPos.getPosition());
-		if (isCollision(m_player->getPlayerShape(), enemysShape))
+		if (isCollision(m_player->getPlayerShape(), enemy.getShape()))
 			killMe();
 	}
 
-	auto playerBullets = m_playersBullets->getBulletsPositions();
+	bulletsPositions = m_playersBullets->getBulletsPositions();
 	for (auto enemy : enemies)
 	{
-		enemysShape.setPosition(enemy.getPosition());
-		for (auto bulletPos : playerBullets)
+		for (auto bulletPos : bulletsPositions)
 		{
 			bulletShape.setPosition(bulletPos.x, bulletPos.y);
-			if (isCollision(bulletShape, enemysShape))
+			if (isCollision(bulletShape, enemy.getShape()))
 			{
 				killTheEnemy(enemy, bulletPos);
 				if (m_enemies->getEnemies().empty())
-				{
-					++m_level;
-					start();
-				}
+					nextLevel();
 			}
 		}
 	}
@@ -153,13 +147,6 @@ void GameState::clear()
 	m_enemiesBullets->clear();
 }
 
-void GameState::addPointsForKill(Enemy::Action action, Enemy::EnemyType type)
-{
-	unsigned points = (type == Enemy::EnemyType::shooter) ? 100 : 50;
-	points *= (action == Enemy::Action::attack) ? 2 : 1;
-	m_stateManager->getSharedContext()->points += points;
-}
-
 void GameState::killMe()
 {
 	--m_lives;
@@ -174,4 +161,25 @@ void GameState::killTheEnemy(Enemy enemy, sf::Vector2f bulletPos)
 	m_enemies->killed(enemy.getPosition());
 	addPointsForKill(enemy.getAction(), enemy.getType());
 	m_playersBullets->remove(bulletPos);
+}
+
+void GameState::nextLevel()
+{
+	++m_level;
+	start();
+}
+
+// ========================== dummy logic ===============================
+
+void GameState::addPointsForKill(Enemy::Action action, Enemy::EnemyType type)
+{
+	const unsigned basePoints = 50;
+	const unsigned multiplier = 2;
+	unsigned points = basePoints;
+	if (type == Enemy::EnemyType::shooter)
+		points *= multiplier;
+	if (action == Enemy::Action::attack)
+		points *= multiplier;
+	m_stateManager->getSharedContext()->points += points;
+	m_pointsText.setString(std::to_string(m_stateManager->getSharedContext()->points));
 }
