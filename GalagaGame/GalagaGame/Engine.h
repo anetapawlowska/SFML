@@ -1,8 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include "SharedContext.h"
+
 #include "Config.h"
+#include "SharedContext.h"
 
 class StateManager;
 

@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include "Enemies.h"
+
 #include <cstdlib>
 #include <cmath>
 
+#include "Bullets.h"
+
 Enemies::Enemies(Bullets* enemiesBullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color shooterColor, sf::Color nonShooterColor) : m_windowSize{ windowSize },
-m_bullets{ enemiesBullets }, m_size{ size }, m_shooterColor{ shooterColor }, m_nonShooterColor{ nonShooterColor }
+m_bullets{ enemiesBullets }, m_enemySize{ size }, m_shooterColor{ shooterColor }, m_nonShooterColor{ nonShooterColor }
 {
 }
 
@@ -15,20 +18,15 @@ Enemies::~Enemies()
 
 void Enemies::update(float deltaTime)
 {
-	if (m_enemies.empty())
-		return;
-
 	for (auto& enemy : m_enemies)
 	{
-		if (enemy.getAction() == Enemy::Action::stayStill && shouldAttack())	
-			enemy.attack({ 0.0f, m_step });
-				
+		if (enemy.getAction() == Enemy::Action::stayStill && shouldGoAttack())	
+			enemy.attack({ 0.0f, m_step });	
+		else if (enemy.getAction() == Enemy::Action::attack && shouldFire())
+			shoot(enemy.getPosition());
+
 		enemy.update(deltaTime);
 	}
-
-	for (auto& enemy : m_enemies)
-		if (enemy.getAction() == Enemy::Action::attack && shouldShoot())
-			shoot(enemy.getPosition());
 }
 
 void Enemies::render(sf::RenderWindow* window) 
@@ -40,8 +38,8 @@ void Enemies::render(sf::RenderWindow* window)
 void Enemies::shoot(sf::Vector2f position)
 {
 	const auto bulletsSize = m_bullets->getSize();
-	const float x = position.x + m_size.x / 2 - bulletsSize.x / 2;
-	const float y = position.y + m_size.y;
+	const float x = position.x + m_enemySize.x / 2 - bulletsSize.x / 2;
+	const float y = position.y + m_enemySize.y + m_step;
 	m_bullets->add({ x,y });
 }
 
@@ -72,8 +70,8 @@ void Enemies::add(unsigned numOfRows, float step)
 	const float fromWall = 50.f;
 	const float spaces = 8.f;
 
-	const unsigned inRow = static_cast<unsigned>((m_windowSize.x - 2 * fromWall + spaces) / (m_size.x + spaces));
-	const float startPoint = (m_windowSize.x - inRow * m_size.x - (inRow - 1) * spaces) / 2;
+	const unsigned inRow = static_cast<unsigned>((m_windowSize.x - 2 * fromWall + spaces) / (m_enemySize.x + spaces));
+	const float startPoint = (m_windowSize.x - inRow * m_enemySize.x - (inRow - 1) * spaces) / 2;
 
 	for (unsigned row = 0; row < numOfRows; ++row)
 	{
@@ -81,18 +79,18 @@ void Enemies::add(unsigned numOfRows, float step)
 		Enemy::EnemyType type = row % 2 == 0 ? Enemy::EnemyType::shooter : Enemy::EnemyType::nonShooter;
 		for (unsigned i = 0; i < inRow; ++i)
 		{
-			sf::Vector2f position{ startPoint + i * (m_size.x + spaces), fromCeiling + row * (m_size.y + spaces) };
-			m_enemies.push_back(Enemy(m_windowSize, m_size, color, position, type));
+			sf::Vector2f position{ startPoint + i * (m_enemySize.x + spaces), fromCeiling + row * (m_enemySize.y + spaces) };
+			m_enemies.push_back(Enemy(m_windowSize, m_enemySize, color, position, type));
 		}
 	}
 }
 
-bool Enemies::shouldAttack() const
+bool Enemies::shouldGoAttack() const
 {
 	return rand() % (100 * m_enemies.size()) == 0;
 }
 
-bool Enemies::shouldShoot() const
+bool Enemies::shouldFire() const
 {
 	return rand() % 20 == 0;
 }

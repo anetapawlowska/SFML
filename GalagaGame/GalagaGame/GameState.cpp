@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GameState.h"
+
 #include <SFML\Graphics.hpp>
+
 #include "Player.h"
 #include "Enemies.h"
 #include "Bullets.h"
@@ -14,7 +16,7 @@ GameState::GameState(StateManager* stateManager) : m_stateManager{ stateManager 
 	Config* config = m_stateManager->getSharedContext()->config;
 
 	m_playersBullets = std::make_unique<Bullets>(config->windowSize, config->bulletsSize, config->playersBulletsColor);
-	m_player = std::make_unique<Player>(m_playersBullets.get(), config->windowSize, config->playersSize, config->playersStep, config->playersColor);
+	m_player = std::make_unique<Player>(m_playersBullets.get(), config->windowSize, config->playersSize, config->playersColor);
 	m_enemiesBullets = std::make_unique<Bullets>(config->windowSize, config->bulletsSize, config->enemiesBulletsColor);
 	m_enemies = std::make_unique<Enemies>(m_enemiesBullets.get(), config->windowSize, config->enemiesSize, config->shootersColor, config->nonShootersColor);
 
@@ -67,8 +69,8 @@ void GameState::render(sf::RenderWindow* window)
 {
 	m_playersBullets->render(window);
 	m_player->render(window);
-	m_enemies->render(window);
 	m_enemiesBullets->render(window);
+	m_enemies->render(window);
 	window->draw(m_pointsText);
 	window->draw(m_livesText);
 }
@@ -129,19 +131,15 @@ bool GameState::isCollision(sf::RectangleShape first, sf::RectangleShape second)
 
 void GameState::start()
 {
-	Config* config = m_stateManager->getSharedContext()->config;
-	
 	clear();
 	m_livesText.setString("Lives: " + std::to_string(m_lives));
 	m_player->start();
 
-	const float bulletsStep = config->bulletsStep + m_level * config->nextLevelAcceleration;
+	const float bulletsStep = getBulletsStep(); 
 	m_enemiesBullets->setStep(bulletsStep);
 	m_playersBullets->setStep(-1 * bulletsStep);
 
-	const unsigned numOfEnemiesRows = static_cast<unsigned>(config->numOfEnemiesRowsInFirstLevel + m_level * config->numOfEnemiesRowsMultiplier);
-	const float enemiesSteps = config->enemiesFirstLevelStep + m_level * config->nextLevelAcceleration;
-	m_enemies->add(numOfEnemiesRows, enemiesSteps );
+	m_enemies->add(getNumOfEnemiesRows(), getEnemiesSteps());
 }
 
 void GameState::clear()
@@ -212,6 +210,14 @@ void GameState::checkPlayersMove()
 	m_player->move(step);
 }
 
+void GameState::addPointsForKill(Enemy::Action action, Enemy::EnemyType type)
+{
+	const unsigned points = getPointsForKill(action, type);
+	const auto config = m_stateManager->getSharedContext();
+	config->points += points;
+	m_pointsText.setString(std::to_string(config->points));
+}
+
 // ========================== dummy logic ===============================
 
 float GameState::getPlayersStep() const
@@ -222,7 +228,7 @@ float GameState::getPlayersStep() const
 	return step;
 }
 
-void GameState::addPointsForKill(Enemy::Action action, Enemy::EnemyType type)
+unsigned GameState::getPointsForKill(Enemy::Action action, Enemy::EnemyType type) const
 {
 	const unsigned basePoints = 50;
 	const unsigned multiplier = 2;
@@ -231,6 +237,23 @@ void GameState::addPointsForKill(Enemy::Action action, Enemy::EnemyType type)
 		points *= multiplier;
 	if (action == Enemy::Action::attack)
 		points *= multiplier;
-	m_stateManager->getSharedContext()->points += points;
-	m_pointsText.setString(std::to_string(m_stateManager->getSharedContext()->points));
+	return points;
+}
+
+float GameState::getBulletsStep() const
+{
+	Config* config = m_stateManager->getSharedContext()->config;
+	return config->bulletsStep + m_level * config->nextLevelAcceleration;
+}
+
+unsigned GameState::getNumOfEnemiesRows() const
+{
+	Config* config = m_stateManager->getSharedContext()->config;
+	return static_cast<unsigned>(config->numOfEnemiesRowsInFirstLevel + m_level * config->numOfEnemiesRowsMultiplier);
+}
+
+float GameState::getEnemiesSteps() const
+{
+	Config* config = m_stateManager->getSharedContext()->config;
+	return config->enemiesFirstLevelStep + m_level * config->nextLevelAcceleration;
 }

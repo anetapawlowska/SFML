@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "StartState.h"
 #include "StateManager.h"
-#include "GameState.h"
 #include "SharedContext.h"
 #include "Config.h"
 
@@ -30,7 +29,7 @@ void StartState::handleInput(sf::RenderWindow* window)
 		if (event.type == sf::Event::Closed)
 			window->close();
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
-			m_stateManager->setNextState(getNextState());
+			m_stateManager->setNextState(StateManager::States::Game);
 	}
 }
 
@@ -47,8 +46,3 @@ void StartState::onEnter()
 
 void StartState::onLeave() 
 {}
-
-StateManager::States StartState::getNextState() const
-{
-	return StateManager::States::Game;
-}

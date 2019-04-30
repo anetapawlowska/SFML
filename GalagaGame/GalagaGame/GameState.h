@@ -33,7 +33,6 @@ private:
 	void start();
 	void checkCollisions();
 	bool isCollision(sf::RectangleShape first, sf::RectangleShape second) const;
-	void addPointsForKill(Enemy::Action action, Enemy::EnemyType type);
 	void killMe();
 	void killTheEnemy(Enemy enemy, sf::Vector2f bulletPos);
 	void clear();
@@ -41,7 +40,15 @@ private:
 	void keyPressed(sf::Keyboard::Key key);
 	void keyReleased(sf::Keyboard::Key key);
 	void checkPlayersMove();
+	void addPointsForKill(Enemy::Action action, Enemy::EnemyType type);
+
+	// ===== dummy logic ======
+	unsigned getPointsForKill(Enemy::Action action, Enemy::EnemyType type) const;
 	float getPlayersStep() const;
+	float getBulletsStep() const;
+	unsigned getNumOfEnemiesRows() const;
+	float getEnemiesSteps() const;
+	// ========================
 
 	StateManager* m_stateManager;
 	std::unique_ptr<Player> m_player;

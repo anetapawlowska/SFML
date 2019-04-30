@@ -6,6 +6,7 @@ Engine::Engine()
 {
 	m_config.readConfig();
 	m_window.create({ m_config.windowSize.x, m_config.windowSize.y, 32 }, "Galaga", sf::Style::Default);
+	m_window.setFramerateLimit(60);
 	m_shared = std::make_unique<SharedContext>(&m_config);
 	m_stateManager = std::make_unique<StateManager>(m_shared.get());
 }

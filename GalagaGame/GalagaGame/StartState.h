@@ -1,7 +1,7 @@
 #pragma once
 #include "State.h"
 
-#include "StateManager.h"
+class StateManager;
 
 class StartState : public State
 {
@@ -18,8 +18,6 @@ public:
 
 
 private:
-	StateManager::States getNextState() const;
-
 	sf::Text m_text;
 	sf::Font m_font;
 	StateManager* m_stateManager;

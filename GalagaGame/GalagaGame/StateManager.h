@@ -2,8 +2,8 @@
 #include <SFML\Graphics.hpp>
 #include <memory>
 
-class State;
 struct SharedContext;
+class State;
 
 class StateManager
 {

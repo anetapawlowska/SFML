@@ -22,20 +22,17 @@ public:
 
 	void update(float deltaTime);
 	void render(sf::RenderWindow* window);
-	void changeStep(sf::Vector2f step);
+
+	sf::RectangleShape& getShape();
 	sf::Vector2f getPosition() const;
-	sf::Vector2f getStep() const;
 	Action getAction() const;
 	EnemyType getType() const;
 	void attack(sf::Vector2f step);
-
-	sf::RectangleShape& getShape();
 
 private:
 	sf::RectangleShape m_shape;
 	sf::Vector2u m_windowSize;
 	sf::Vector2f m_step{ 0.0f, 0.0f };
-	sf::Vector2f m_position;
 	sf::Vector2f m_startPosition;
 	EnemyType m_type;
 	Action m_action{ Action::stayStill };

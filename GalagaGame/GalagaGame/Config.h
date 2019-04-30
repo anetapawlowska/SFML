@@ -49,6 +49,7 @@ struct Config
 	const sf::Color nonShootersColor{ sf::Color::Blue };
 	const sf::Color playersBulletsColor { sf::Color::Yellow };
 	const sf::Color enemiesBulletsColor{ sf::Color::Yellow };
+
 private:
 	void createConfig()
 	{
