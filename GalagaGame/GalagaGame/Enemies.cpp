@@ -5,6 +5,8 @@
 #include <cmath>
 
 #include "Bullets.h"
+#include "Enemy.h"
+#include "NonShooterEnemy.h"
 
 Enemies::Enemies(Bullets* enemiesBullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color shooterColor, sf::Color nonShooterColor) : m_windowSize{ windowSize },
 m_bullets{ enemiesBullets }, m_enemySize{ size }, m_shooterColor{ shooterColor }, m_nonShooterColor{ nonShooterColor }
@@ -20,27 +22,19 @@ void Enemies::update(float deltaTime)
 {
 	for (auto& enemy : m_enemies)
 	{
-		if (enemy.getAction() == Enemy::Action::stayStill && shouldGoAttack())	
-			enemy.attack({ 0.0f, m_step });	
-		else if (enemy.getAction() == Enemy::Action::attack && shouldFire())
-			shoot(enemy.getPosition());
+		if (enemy->getAction() == Enemy::Action::stayStill && shouldGoAttack())
+			enemy->attack({ 0.0f, m_step });
+		else if (enemy->getAction() == Enemy::Action::attack && shouldFire())
+			enemy->shoot();
 
-		enemy.update(deltaTime);
+		enemy->update(deltaTime);
 	}
 }
 
 void Enemies::render(sf::RenderWindow* window) 
 {
 	for (auto& enemy : m_enemies)
-		enemy.render(window);
-}
-
-void Enemies::shoot(sf::Vector2f position)
-{
-	const auto bulletsSize = m_bullets->getSize();
-	const float x = position.x + m_enemySize.x / 2 - bulletsSize.x / 2;
-	const float y = position.y + m_enemySize.y + m_step;
-	m_bullets->add({ x,y });
+		enemy->render(window);
 }
 
 void Enemies::clear()
@@ -48,16 +42,15 @@ void Enemies::clear()
 	m_enemies.clear();
 }
 
-std::vector<Enemy>& Enemies::getEnemies()
+Enemies::EnemiesInfo& Enemies::getEnemies()
 {
 	return m_enemies;
 }
 
-void Enemies::killed(sf::Vector2f pos)
+void Enemies::killed(Enemies::EnemiesInfo::iterator enemyIt)
 {
-	auto it = std::find_if(begin(m_enemies), end(m_enemies), [pos](auto enemy) {return enemy.getPosition() == pos; });
-	if (it != end(m_enemies))
-		m_enemies.erase(it);
+	if (enemyIt != end(m_enemies))
+		m_enemies.erase(enemyIt);
 }
 
 // ========================== dummy logic ===============================
@@ -73,16 +66,17 @@ void Enemies::add(unsigned numOfRows, float step)
 	const unsigned inRow = static_cast<unsigned>((m_windowSize.x - 2 * fromWall + spaces) / (m_enemySize.x + spaces));
 	const float startPoint = (m_windowSize.x - inRow * m_enemySize.x - (inRow - 1) * spaces) / 2;
 
-	for (unsigned row = 0; row < numOfRows; ++row)
-	{
-		sf::Color color = row % 2 == 0 ? m_shooterColor : m_nonShooterColor;
-		Enemy::EnemyType type = row % 2 == 0 ? Enemy::EnemyType::shooter : Enemy::EnemyType::nonShooter;
-		for (unsigned i = 0; i < inRow; ++i)
-		{
-			sf::Vector2f position{ startPoint + i * (m_enemySize.x + spaces), fromCeiling + row * (m_enemySize.y + spaces) };
-			m_enemies.push_back(Enemy(m_windowSize, m_enemySize, color, position, type));
-		}
-	}
+	const auto position = [=](int row, int reel) {return sf::Vector2f{ startPoint + reel * (m_enemySize.x + spaces), fromCeiling + row * (m_enemySize.y + spaces) }; };
+
+	m_enemies.reserve(numOfRows * inRow);
+
+	for (unsigned row = 0; row < numOfRows; row += 2)
+		for (unsigned reel = 0; reel < inRow; ++reel)
+			m_enemies.push_back(std::make_unique<Enemy>(m_bullets, m_windowSize, m_enemySize, m_shooterColor, position(row,reel)));
+
+	for (unsigned row = 1; row < numOfRows; row += 2)
+		for (unsigned reel = 0; reel < inRow; ++reel)
+			m_enemies.push_back(std::make_unique<NonShooterEnemy>(m_bullets, m_windowSize, m_enemySize, m_nonShooterColor, position(row, reel)));
 }
 
 bool Enemies::shouldGoAttack() const

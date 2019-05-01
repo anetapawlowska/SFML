@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "Enemy.h"
+#include "Bullets.h"
 
-
-Enemy::Enemy(sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position, EnemyType type) : m_shape{ size },
-m_windowSize{ windowSize }, m_startPosition{ position }, m_type{ type }
+Enemy::Enemy(Bullets* bullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position) :
+	m_bullets{ bullets }, m_shape {size}, m_windowSize{ windowSize }, m_startPosition{ position }
 {
 	m_shape.setFillColor(color);
 	m_shape.setPosition(position);
@@ -47,11 +47,6 @@ Enemy::Action Enemy::getAction() const
 	return m_action;
 }
 
-Enemy::EnemyType Enemy::getType() const
-{
-	return m_type;
-}
-
 void Enemy::attack(sf::Vector2f step)
 {
 	m_action = Action::attack;
@@ -61,4 +56,14 @@ void Enemy::attack(sf::Vector2f step)
 sf::RectangleShape& Enemy::getShape()
 {
 	return m_shape;
+}
+
+void Enemy::shoot()
+{
+	const auto position = m_shape.getPosition();
+	const auto size = m_shape.getSize();
+	const auto bulletsSize = m_bullets->getSize();
+	const float x = position.x + size.x / 2 - bulletsSize.x / 2;
+	const float y = position.y + size.y + m_step.y;
+	m_bullets->add({ x,y });
 }

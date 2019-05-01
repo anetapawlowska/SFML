@@ -2,6 +2,7 @@
 #include "GameState.h"
 
 #include <SFML\Graphics.hpp>
+#include <vector>
 
 #include "Player.h"
 #include "Enemies.h"
@@ -98,27 +99,34 @@ void GameState::checkCollisions()
 	{
 		bulletShape.setPosition(bulletPos.x, bulletPos.y);
 		if (isCollision(m_player->getPlayerShape(), bulletShape))
+		{
 			killMe();
+			return;
+		}
 	}
 
-	auto enemies = m_enemies->getEnemies();
+	auto& enemies = m_enemies->getEnemies();
 	for (auto& enemy : enemies)
 	{
-		if (isCollision(m_player->getPlayerShape(), enemy.getShape()))
+		if (isCollision(m_player->getPlayerShape(), enemy->getShape()))
+		{
 			killMe();
+			return;
+		}
 	}
 
 	bulletsPositions = m_playersBullets->getBulletsPositions();
-	for (auto enemy : enemies)
+	for (auto enemyIt = begin(enemies); enemyIt != end(enemies); ++enemyIt)
 	{
 		for (auto bulletPos : bulletsPositions)
 		{
 			bulletShape.setPosition(bulletPos.x, bulletPos.y);
-			if (isCollision(bulletShape, enemy.getShape()))
+			if (isCollision(bulletShape, (*enemyIt)->getShape()))
 			{
-				killTheEnemy(enemy, bulletPos);
+				killTheEnemy(enemyIt, bulletPos);
 				if (m_enemies->getEnemies().empty())
 					nextLevel();
+				return;
 			}
 		}
 	}
@@ -131,6 +139,10 @@ bool GameState::isCollision(sf::RectangleShape first, sf::RectangleShape second)
 
 void GameState::start()
 {
+	m_keyPressedCounter = 0;
+	m_isKeyPressed = false;
+	m_playersDirection = PlayersDirection::none;
+
 	clear();
 	m_livesText.setString("Lives: " + std::to_string(m_lives));
 	m_player->start();
@@ -158,10 +170,10 @@ void GameState::killMe()
 		start();
 }
 
-void GameState::killTheEnemy(Enemy enemy, sf::Vector2f bulletPos)
+void GameState::killTheEnemy(Enemies::EnemiesInfo::iterator enemyIt, sf::Vector2f bulletPos)
 {
-	m_enemies->killed(enemy.getPosition());
-	addPointsForKill(enemy.getAction(), enemy.getType());
+	addPointsForKill((*enemyIt)->getAction());
+	m_enemies->killed(enemyIt);
 	m_playersBullets->remove(bulletPos);
 }
 
@@ -210,9 +222,9 @@ void GameState::checkPlayersMove()
 	m_player->move(step);
 }
 
-void GameState::addPointsForKill(Enemy::Action action, Enemy::EnemyType type)
+void GameState::addPointsForKill(Enemy::Action action)
 {
-	const unsigned points = getPointsForKill(action, type);
+	const unsigned points = getPointsForKill(action);
 	const auto config = m_stateManager->getSharedContext();
 	config->points += points;
 	m_pointsText.setString(std::to_string(config->points));
@@ -228,16 +240,11 @@ float GameState::getPlayersStep() const
 	return step;
 }
 
-unsigned GameState::getPointsForKill(Enemy::Action action, Enemy::EnemyType type) const
+unsigned GameState::getPointsForKill(Enemy::Action action) const
 {
-	const unsigned basePoints = 50;
-	const unsigned multiplier = 2;
-	unsigned points = basePoints;
-	if (type == Enemy::EnemyType::shooter)
-		points *= multiplier;
-	if (action == Enemy::Action::attack)
-		points *= multiplier;
-	return points;
+	const unsigned pointsForKill = 50;
+	const unsigned pointsForAttacker = 75;
+	return action == Enemy::Action::attack ? pointsForAttacker : pointsForKill;
 }
 
 float GameState::getBulletsStep() const

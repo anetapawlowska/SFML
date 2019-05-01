@@ -2,9 +2,9 @@
 #include "State.h"
 #include <memory>
 #include "Enemy.h"
+#include "Enemies.h"
 
 class Player;
-class Enemies;
 class Bullets;
 class StateManager;
 
@@ -34,16 +34,16 @@ private:
 	void checkCollisions();
 	bool isCollision(sf::RectangleShape first, sf::RectangleShape second) const;
 	void killMe();
-	void killTheEnemy(Enemy enemy, sf::Vector2f bulletPos);
+	void killTheEnemy(Enemies::EnemiesInfo::iterator enemyIt, sf::Vector2f bulletPos);
 	void clear();
 	void nextLevel();
 	void keyPressed(sf::Keyboard::Key key);
 	void keyReleased(sf::Keyboard::Key key);
 	void checkPlayersMove();
-	void addPointsForKill(Enemy::Action action, Enemy::EnemyType type);
+	void addPointsForKill(Enemy::Action action);
 
 	// ===== dummy logic ======
-	unsigned getPointsForKill(Enemy::Action action, Enemy::EnemyType type) const;
+	unsigned getPointsForKill(Enemy::Action action) const;
 	float getPlayersStep() const;
 	float getBulletsStep() const;
 	unsigned getNumOfEnemiesRows() const;
