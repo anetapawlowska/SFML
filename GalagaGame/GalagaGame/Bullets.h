@@ -5,7 +5,7 @@
 class Bullets
 {
 public:
-	Bullets(sf::Vector2u windowSize, sf::Vector2f size, sf::Color color);
+	explicit Bullets(sf::Vector2u windowSize, sf::Vector2f size, sf::Color color);
 	virtual ~Bullets();
 
 	void update(float deltaTime);

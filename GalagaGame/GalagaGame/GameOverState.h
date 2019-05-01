@@ -1,12 +1,14 @@
 #pragma once
 #include "State.h"
+#include <memory>
 
 class StateManager;
+class ButtonShape;
 
 class GameOverState : public State
 {
 public:
-	GameOverState(StateManager* stateManager);
+	explicit GameOverState(StateManager* stateManager);
 	~GameOverState();
 
 	void handleInput(sf::RenderWindow* window) override;
@@ -21,6 +23,7 @@ private:
 
 	sf::Text m_text;
 	sf::Font m_font;
+	std::unique_ptr<ButtonShape> m_button;
 	StateManager * m_stateManager;
 };
 

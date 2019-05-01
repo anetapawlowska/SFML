@@ -28,6 +28,9 @@
     <Filter Include="Game\GameOverState">
       <UniqueIdentifier>{36ec3df4-9e0a-4aaf-80b5-3e00b6fca048}</UniqueIdentifier>
     </Filter>
+    <Filter Include="gui">
+      <UniqueIdentifier>{6d7bac2d-d9bc-4945-919d-18323975e408}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -72,6 +75,9 @@
     <ClInclude Include="GameOverState.h">
       <Filter>Game\GameOverState</Filter>
     </ClInclude>
+    <ClInclude Include="ButtonShape.h">
+      <Filter>gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -106,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="StartState.cpp">
       <Filter>Game\StartState</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonShape.cpp">
+      <Filter>gui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

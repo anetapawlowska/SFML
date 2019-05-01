@@ -7,7 +7,7 @@ class Bullets;
 class Enemies
 {
 public:
-	Enemies(Bullets* enemiesBullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color shooterColor, sf::Color nonShooterColor);
+	explicit Enemies(Bullets* enemiesBullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color shooterColor, sf::Color nonShooterColor);
 	~Enemies();
 
 	void update(float deltaTime);

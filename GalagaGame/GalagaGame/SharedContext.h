@@ -4,7 +4,7 @@
 
 struct SharedContext
 {
-	SharedContext(Config* config) : config{ config } {}
+	explicit SharedContext(Config* config) : config{ config } {}
 	
 	Config* config;
 	long long unsigned points;

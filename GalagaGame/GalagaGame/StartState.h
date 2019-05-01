@@ -1,12 +1,14 @@
 #pragma once
 #include "State.h"
+#include <memory>
 
 class StateManager;
+class ButtonShape;
 
 class StartState : public State
 {
 public:
-	StartState(StateManager* stateManager);
+	explicit StartState(StateManager* stateManager);
 	~StartState();
 
 	 void handleInput(sf::RenderWindow* window) override;
@@ -18,8 +20,7 @@ public:
 
 
 private:
-	sf::Text m_text;
-	sf::Font m_font;
+	std::unique_ptr<ButtonShape> m_button;
 	StateManager* m_stateManager;
 };
 

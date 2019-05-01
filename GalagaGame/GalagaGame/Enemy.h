@@ -17,7 +17,7 @@ public:
 		goBack
 	};
 
-	Enemy(sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position, EnemyType type);
+	explicit Enemy(sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position, EnemyType type);
 	~Enemy();
 
 	void update(float deltaTime);

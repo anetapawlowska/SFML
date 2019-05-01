@@ -8,7 +8,7 @@ class State;
 class StateManager
 {
 public:
-	StateManager(SharedContext* shared);
+	explicit StateManager(SharedContext* shared);
 	~StateManager();
 
 	enum class States

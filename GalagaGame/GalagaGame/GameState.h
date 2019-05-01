@@ -11,7 +11,7 @@ class StateManager;
 class GameState : public State
 {
 public:
-	GameState(StateManager* stateManager);
+	explicit GameState(StateManager* stateManager);
 	~GameState();
 
 	void handleInput(sf::RenderWindow* window) override;

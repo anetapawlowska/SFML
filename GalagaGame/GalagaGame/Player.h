@@ -6,7 +6,7 @@ class Bullets;
 class Player
 {
 public:
-	Player(Bullets* bullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color color);
+	explicit Player(Bullets* bullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color color);
 	~Player();
 
 	void update(float deltaTime);
