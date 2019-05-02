@@ -7,5 +7,6 @@ struct SharedContext
 	explicit SharedContext(Config* config) : config{ config } {}
 	
 	Config* config;
-	long long unsigned points;
+	long long unsigned points{};
+	unsigned m_level{};
 };

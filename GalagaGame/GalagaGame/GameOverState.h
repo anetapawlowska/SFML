@@ -23,7 +23,8 @@ private:
 
 	sf::Text m_text;
 	sf::Font m_font;
-	std::unique_ptr<ButtonShape> m_button;
+	std::unique_ptr<ButtonShape> m_startButton;
+	std::unique_ptr<ButtonShape> m_endButton;
 	StateManager * m_stateManager;
 };
 

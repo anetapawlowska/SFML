@@ -35,6 +35,7 @@ struct Config
 
 	const sf::Vector2f buttonsSize{ 300, 50 };
 	const sf::Vector2f playAgainButtonsPos{ 200, 300 };
+	const sf::Vector2f endGameButtonsPos{ 200, 380 };
 	const sf::Vector2f gameOverPointsPos{ 200, 180 };
 
 	const sf::Vector2u windowSize{ 400, 480 };

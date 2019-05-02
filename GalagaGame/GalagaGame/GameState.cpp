@@ -78,10 +78,11 @@ void GameState::render(sf::RenderWindow* window)
 
 void GameState::onEnter()
 {
-	m_stateManager->getSharedContext()->points = 0;
-	m_pointsText.setString(std::to_string(m_stateManager->getSharedContext()->points));
-	m_lives = m_stateManager->getSharedContext()->config->lives;
-	m_level = 0;
+	auto* sharedContext = m_stateManager->getSharedContext();
+	sharedContext->points = 0;
+	m_pointsText.setString(std::to_string(sharedContext->points));
+	m_lives = sharedContext->config->lives;
+	sharedContext->m_level = 0;
 	start();
 }
 
@@ -179,7 +180,7 @@ void GameState::killTheEnemy(Enemies::EnemiesInfo::iterator enemyIt, sf::Vector2
 
 void GameState::nextLevel()
 {
-	++m_level;
+	++m_stateManager->getSharedContext()->m_level;
 	start();
 }
 
@@ -249,18 +250,21 @@ unsigned GameState::getPointsForKill(Enemy::Action action) const
 
 float GameState::getBulletsStep() const
 {
-	Config* config = m_stateManager->getSharedContext()->config;
-	return config->bulletsStep + m_level * config->nextLevelAcceleration;
+	auto* shared = m_stateManager->getSharedContext();
+	Config* config = shared->config;
+	return config->bulletsStep + shared->m_level * config->nextLevelAcceleration;
 }
 
 unsigned GameState::getNumOfEnemiesRows() const
 {
-	Config* config = m_stateManager->getSharedContext()->config;
-	return static_cast<unsigned>(config->numOfEnemiesRowsInFirstLevel + m_level * config->numOfEnemiesRowsMultiplier);
+	auto* shared = m_stateManager->getSharedContext();
+	Config* config = shared->config;
+	return static_cast<unsigned>(config->numOfEnemiesRowsInFirstLevel + shared->m_level * config->numOfEnemiesRowsMultiplier);
 }
 
 float GameState::getEnemiesSteps() const
 {
-	Config* config = m_stateManager->getSharedContext()->config;
-	return config->enemiesFirstLevelStep + m_level * config->nextLevelAcceleration;
+	auto* shared = m_stateManager->getSharedContext();
+	Config* config = shared->config;
+	return config->enemiesFirstLevelStep + shared->m_level * config->nextLevelAcceleration;
 }

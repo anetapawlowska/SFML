@@ -10,7 +10,7 @@ StartState::StartState(StateManager* stateManager): m_stateManager{stateManager}
 	const auto config = m_stateManager->getSharedContext()->config;
 	const auto windowSize = config->windowSize;
 	const sf::Vector2f position = { windowSize.x / 2.0f, windowSize.y / 2.0f };
-	std::string text = "play";
+	std::string text = "Start";
 	m_button = std::make_unique<ButtonShape>(config->buttonsSize, config->buttonsColor, position, text);
 }
 

@@ -64,6 +64,5 @@ private:
 	sf::Font m_font;
 	unsigned m_lives{};
 	sf::Text m_livesText;
-	unsigned m_level{};
 };
 
