@@ -20,10 +20,12 @@ public:
 	EnemiesInfo& getEnemies();
 	void killed(Enemies::EnemiesInfo::iterator enemyIt);
 	void add(unsigned numOfRows, float step);
+	void everybodyGoBack();
 
 private:
 	bool shouldGoAttack() const;
 	bool shouldFire() const;
+
 
 	sf::Color m_shooterColor;
 	sf::Color m_nonShooterColor;

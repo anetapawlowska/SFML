@@ -42,6 +42,7 @@ private:
 	void checkPlayersMove();
 	void addPointsForKill(Enemy::Action action);
 	void setScoreText();
+	void clearPlayer();
 
 	// ===== dummy logic ======
 	unsigned getPointsForKill(Enemy::Action action) const;

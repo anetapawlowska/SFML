@@ -25,6 +25,7 @@ public:
 	Action getAction() const;
 	void attack(sf::Vector2f step);
 	virtual void shoot();
+	void goBack();
 
 private:
 	Bullets* m_bullets;

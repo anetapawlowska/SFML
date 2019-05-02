@@ -53,6 +53,12 @@ void Enemies::killed(Enemies::EnemiesInfo::iterator enemyIt)
 		m_enemies.erase(enemyIt);
 }
 
+void Enemies::everybodyGoBack()
+{
+	for (auto& enemy : m_enemies)
+		enemy->goBack();
+}
+
 // ========================== dummy logic ===============================
 
 void Enemies::add(unsigned numOfRows, float step)

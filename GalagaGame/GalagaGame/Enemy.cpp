@@ -68,3 +68,10 @@ void Enemy::shoot()
 	const float y = position.y + size.y + m_step.y;
 	m_bullets->add({ x,y });
 }
+
+void Enemy::goBack()
+{
+	m_shape.setPosition(m_startPosition);
+	m_action = Action::stayStill;
+	m_step = { 0.0f, 0.0f };
+}

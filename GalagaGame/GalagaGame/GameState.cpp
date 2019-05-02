@@ -140,19 +140,23 @@ bool GameState::isCollision(sf::RectangleShape first, sf::RectangleShape second)
 
 void GameState::start()
 {
-	m_keyPressedCounter = 0;
-	m_isKeyPressed = false;
-	m_playersDirection = PlayersDirection::none;
-
+	clearPlayer();
 	clear();
 	m_livesText.setString("Lives: " + std::to_string(m_lives));
-	m_player->start();
 
 	const float bulletsStep = getBulletsStep(); 
 	m_enemiesBullets->setStep(bulletsStep);
 	m_playersBullets->setStep(-1 * bulletsStep);
 
 	m_enemies->add(getNumOfEnemiesRows(), getEnemiesSteps());
+}
+
+void GameState::clearPlayer()
+{
+	m_keyPressedCounter = 0;
+	m_isKeyPressed = false;
+	m_playersDirection = PlayersDirection::none;
+	m_player->start();
 }
 
 void GameState::clear()
@@ -168,7 +172,12 @@ void GameState::killMe()
 	if (m_lives == 0)
 		m_stateManager->setNextState(StateManager::States::GameOver);
 	else
-		start();
+	{
+		clearPlayer();
+		m_playersBullets->clear();
+		m_enemiesBullets->clear();
+		m_enemies->everybodyGoBack();
+	}
 }
 
 void GameState::killTheEnemy(Enemies::EnemiesInfo::iterator enemyIt, sf::Vector2f bulletPos)
