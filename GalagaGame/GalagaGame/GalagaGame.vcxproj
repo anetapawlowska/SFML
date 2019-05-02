@@ -98,6 +98,11 @@
       <AdditionalLibraryDirectories>C:\SFML\32\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-window-d.lib;sfml-graphics-d.lib;sfml-system-d.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "C:\SFML\32\bin\sfml-graphics-d-2.dll" $(TargetDir) /i/d/y
+xcopy "C:\SFML\32\bin\sfml-window-d-2.dll" $(TargetDir) /i/d/y
+xcopy "C:\SFML\32\bin\sfml-system-d-2.dll" $(TargetDir) /i/d/y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -131,7 +136,17 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML\32\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-window.lib;sfml-graphics.lib;sfml-system.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "C:\SFML\32\bin\sfml-graphics-2.dll" $(TargetDir) /i/d/y
+xcopy "C:\SFML\32\bin\sfml-window-2.dll" $(TargetDir) /i/d/y
+xcopy "C:\SFML\32\bin\sfml-system-2.dll" $(TargetDir) /i/d/y</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
