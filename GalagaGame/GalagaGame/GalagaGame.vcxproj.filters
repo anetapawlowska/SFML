@@ -87,6 +87,9 @@
     <ClInclude Include="PointsScorer.h">
       <Filter>Game\GameState</Filter>
     </ClInclude>
+    <ClInclude Include="PlayersMovement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -133,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="PointsScorer.cpp">
       <Filter>Game\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayersMovement.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

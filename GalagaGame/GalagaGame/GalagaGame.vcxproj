@@ -177,6 +177,7 @@ xcopy "C:\SFML\32\bin\sfml-system-2.dll" $(TargetDir) /i/d/y</Command>
     <ClInclude Include="GameState.h" />
     <ClInclude Include="NonShooterEnemy.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayersMovement.h" />
     <ClInclude Include="PointsScorer.h" />
     <ClInclude Include="SharedContext.h" />
     <ClInclude Include="Stars.h" />
@@ -197,6 +198,7 @@ xcopy "C:\SFML\32\bin\sfml-system-2.dll" $(TargetDir) /i/d/y</Command>
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="NonShooterEnemy.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayersMovement.cpp" />
     <ClCompile Include="PointsScorer.cpp" />
     <ClCompile Include="Stars.cpp" />
     <ClCompile Include="StartState.cpp" />
