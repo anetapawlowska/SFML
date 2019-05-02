@@ -27,6 +27,7 @@ struct Config
 			values[name] = value;
 		}
 		cfgFile.close();
+		createConfig();
 	}
 
 	const unsigned lives = 3;
