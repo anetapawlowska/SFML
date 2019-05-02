@@ -35,13 +35,13 @@ private:
 	bool isCollision(sf::RectangleShape first, sf::RectangleShape second) const;
 	void killMe();
 	void killTheEnemy(Enemies::EnemiesInfo::iterator enemyIt, sf::Vector2f bulletPos);
-	void clear();
 	void nextLevel();
 	void keyPressed(sf::Keyboard::Key key);
 	void keyReleased(sf::Keyboard::Key key);
 	void checkPlayersMove();
 	void addPointsForKill(Enemy::Action action);
 	void setScoreText();
+	void setLivesText();
 	void clearPlayer();
 
 	// ===== dummy logic ======

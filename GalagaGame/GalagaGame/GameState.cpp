@@ -88,7 +88,9 @@ void GameState::onEnter()
 
 void GameState::onLeave()
 {
-	clear();
+	m_enemies->clear();
+	m_playersBullets->clear();
+	m_enemiesBullets->clear();
 }
 
 void GameState::checkCollisions()
@@ -141,8 +143,10 @@ bool GameState::isCollision(sf::RectangleShape first, sf::RectangleShape second)
 void GameState::start()
 {
 	clearPlayer();
-	clear();
-	m_livesText.setString("Lives: " + std::to_string(m_lives));
+	m_enemies->clear();
+	m_playersBullets->clear();
+	m_enemiesBullets->clear();
+	setLivesText();
 
 	const float bulletsStep = getBulletsStep(); 
 	m_enemiesBullets->setStep(bulletsStep);
@@ -159,13 +163,6 @@ void GameState::clearPlayer()
 	m_player->start();
 }
 
-void GameState::clear()
-{
-	m_enemies->clear();
-	m_playersBullets->clear();
-	m_enemiesBullets->clear();
-}
-
 void GameState::killMe()
 {
 	--m_lives;
@@ -177,6 +174,7 @@ void GameState::killMe()
 		m_playersBullets->clear();
 		m_enemiesBullets->clear();
 		m_enemies->everybodyGoBack();
+		setLivesText();
 	}
 }
 
@@ -246,6 +244,11 @@ void GameState::setScoreText()
 {
 	const auto config = m_stateManager->getSharedContext();
 	m_pointsText.setString("Score: " + std::to_string(config->points));
+}
+
+void GameState::setLivesText()
+{
+	m_livesText.setString("Lives: " + std::to_string(m_lives));
 }
 
 // ========================== dummy logic ===============================
