@@ -7,6 +7,7 @@
 class Player;
 class Bullets;
 class StateManager;
+class PointsScorer;
 
 class GameState : public State
 {
@@ -39,13 +40,10 @@ private:
 	void keyPressed(sf::Keyboard::Key key);
 	void keyReleased(sf::Keyboard::Key key);
 	void checkPlayersMove();
-	void addPointsForKill(Enemy::Action action);
-	void setScoreText();
 	void setLivesText();
 	void clearPlayer();
 
 	// ===== dummy logic ======
-	unsigned getPointsForKill(Enemy::Action action) const;
 	float getPlayersStep() const;
 	float getBulletsStep() const;
 	unsigned getNumOfEnemiesRows() const;
@@ -57,12 +55,12 @@ private:
 	std::unique_ptr<Bullets> m_playersBullets;
 	std::unique_ptr<Enemies> m_enemies;
 	std::unique_ptr<Bullets> m_enemiesBullets;
+	std::unique_ptr<PointsScorer> m_pointsScorer;
 
 	unsigned m_keyPressedCounter{0};
 	bool m_isKeyPressed{ false };
 	PlayersDirection m_playersDirection{ PlayersDirection::none };
 
-	sf::Text m_pointsText;
 	sf::Font m_font;
 	unsigned m_lives{};
 	sf::Text m_livesText;

@@ -11,6 +11,7 @@
 #include "StateManager.h"
 #include "SharedContext.h"
 #include "Config.h"
+#include "PointsScorer.h"
 
 GameState::GameState(StateManager* stateManager) : m_stateManager{ stateManager }
 {
@@ -20,12 +21,9 @@ GameState::GameState(StateManager* stateManager) : m_stateManager{ stateManager 
 	m_player = std::make_unique<Player>(m_playersBullets.get(), config->windowSize, config->playersSize, config->playersColor);
 	m_enemiesBullets = std::make_unique<Bullets>(config->windowSize, config->bulletsSize, config->enemiesBulletsColor);
 	m_enemies = std::make_unique<Enemies>(m_enemiesBullets.get(), config->windowSize, config->enemiesSize, config->shootersColor, config->nonShootersColor);
+	m_pointsScorer = std::make_unique<PointsScorer>(m_stateManager->getSharedContext());
 
 	m_font.loadFromFile("arial.ttf");
-	m_pointsText.setFont(m_font);
-	m_pointsText.setCharacterSize(15);
-	m_pointsText.setFillColor(sf::Color::White);
-
 	m_livesText.setFont(m_font);
 	m_livesText.setCharacterSize(15);
 	m_livesText.setFillColor(sf::Color::White);
@@ -64,6 +62,7 @@ void GameState::update(float deltaTime)
 	m_player->update(deltaTime);
 	m_enemiesBullets->update(deltaTime);
 	m_enemies->update(deltaTime);
+	m_pointsScorer->update(deltaTime);
 }
 
 void GameState::render(sf::RenderWindow* window)
@@ -72,15 +71,14 @@ void GameState::render(sf::RenderWindow* window)
 	m_player->render(window);
 	m_enemiesBullets->render(window);
 	m_enemies->render(window);
-	window->draw(m_pointsText);
+	m_pointsScorer->render(window);
 	window->draw(m_livesText);
 }
 
 void GameState::onEnter()
 {
 	auto* sharedContext = m_stateManager->getSharedContext();
-	sharedContext->points = 0;
-	setScoreText();
+	m_pointsScorer->resetScore();
 	m_lives = sharedContext->config->lives;
 	sharedContext->m_level = 0;
 	start();
@@ -180,7 +178,7 @@ void GameState::killMe()
 
 void GameState::killTheEnemy(Enemies::EnemiesInfo::iterator enemyIt, sf::Vector2f bulletPos)
 {
-	addPointsForKill((*enemyIt)->getAction());
+	m_pointsScorer->addPointsForKill((*enemyIt)->getAction());
 	m_enemies->killed(enemyIt);
 	m_playersBullets->remove(bulletPos);
 }
@@ -232,20 +230,6 @@ void GameState::checkPlayersMove()
 	m_player->move(step);
 }
 
-void GameState::addPointsForKill(Enemy::Action action)
-{
-	const unsigned points = getPointsForKill(action);
-	const auto config = m_stateManager->getSharedContext();
-	config->points += points;
-	setScoreText();
-}
-
-void GameState::setScoreText()
-{
-	const auto config = m_stateManager->getSharedContext();
-	m_pointsText.setString("Score: " + std::to_string(config->points));
-}
-
 void GameState::setLivesText()
 {
 	m_livesText.setString("Lives: " + std::to_string(m_lives));
@@ -260,13 +244,6 @@ float GameState::getPlayersStep() const
 	float step = config->playersStep;
 	step += m_keyPressedCounter * multiplier;
 	return std::min(step, config->playersMaxStep);
-}
-
-unsigned GameState::getPointsForKill(Enemy::Action action) const
-{
-	const unsigned pointsForKill = 50;
-	const unsigned pointsForAttacker = 75;
-	return action == Enemy::Action::attack ? pointsForAttacker : pointsForKill;
 }
 
 float GameState::getBulletsStep() const
