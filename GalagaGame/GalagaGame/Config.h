@@ -31,6 +31,8 @@ struct Config
 
 	const unsigned lives = 3;
 
+	const float startsStep{ 2.0f };
+
 	const sf::Vector2f buttonsSize{ 300, 50 };
 	const sf::Vector2f playAgainButtonsPos{ 200, 300 };
 	const sf::Vector2f gameOverPointsPos{ 200, 180 };

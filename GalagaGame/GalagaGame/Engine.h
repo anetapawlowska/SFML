@@ -6,6 +6,7 @@
 #include "SharedContext.h"
 
 class StateManager;
+class Stars;
 
 class Engine
 {
@@ -24,6 +25,7 @@ public:
 private:
 	std::unique_ptr<StateManager> m_stateManager;
 	std::unique_ptr<SharedContext> m_shared;
+	std::unique_ptr<Stars> m_stars;
 	Config m_config;
 
 	sf::RenderWindow m_window;

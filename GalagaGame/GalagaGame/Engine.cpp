@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Engine.h"
 #include "StateManager.h"
+#include "Stars.h"
 
 Engine::Engine()
 {
@@ -9,6 +10,7 @@ Engine::Engine()
 	m_window.setFramerateLimit(60);
 	m_shared = std::make_unique<SharedContext>(&m_config);
 	m_stateManager = std::make_unique<StateManager>(m_shared.get());
+	m_stars = std::make_unique<Stars>(m_config.startsStep);
 }
 
 Engine::~Engine()
@@ -26,6 +28,7 @@ void Engine::update()
 	if (m_elapsed.asSeconds() >= timestep)
 	{
 		m_elapsed -= sf::seconds(timestep);
+		m_stars->update(timestep);
 		m_stateManager->update(timestep);
 	}
 }
@@ -33,6 +36,7 @@ void Engine::update()
 void Engine::render()
 {
 	m_window.clear(sf::Color::Black);
+	m_stars->render(getWindow());
 	m_stateManager->render(getWindow());
 	m_window.display();
 }

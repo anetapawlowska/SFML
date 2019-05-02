@@ -163,6 +163,7 @@
     <ClInclude Include="NonShooterEnemy.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SharedContext.h" />
+    <ClInclude Include="Stars.h" />
     <ClInclude Include="StartState.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateManager.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="NonShooterEnemy.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Stars.cpp" />
     <ClCompile Include="StartState.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="stdafx.cpp">

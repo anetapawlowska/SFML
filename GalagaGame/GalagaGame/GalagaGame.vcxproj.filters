@@ -81,6 +81,9 @@
     <ClInclude Include="NonShooterEnemy.h">
       <Filter>Game\GameState</Filter>
     </ClInclude>
+    <ClInclude Include="Stars.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -121,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="NonShooterEnemy.cpp">
       <Filter>Game\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="Stars.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
