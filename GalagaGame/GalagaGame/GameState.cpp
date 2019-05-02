@@ -206,7 +206,9 @@ void GameState::checkPlayersMove()
 	if (m_playersDirection == PlayersDirection::none)
 		return;
 
-	if (m_isKeyPressed)
+	const auto maxPlayersStep = m_stateManager->getSharedContext()->config->playersMaxStep;
+
+	if (m_isKeyPressed && getPlayersStep() < maxPlayersStep )
 		++m_keyPressedCounter;
 	else if (m_keyPressedCounter > 0)
 		--m_keyPressedCounter;
@@ -235,10 +237,11 @@ void GameState::addPointsForKill(Enemy::Action action)
 
 float GameState::getPlayersStep() const
 {
+	auto* config = m_stateManager->getSharedContext()->config;
 	const float multiplier = 0.5f;
-	float step = m_stateManager->getSharedContext()->config->playersStep;
+	float step = config->playersStep;
 	step += m_keyPressedCounter * multiplier;
-	return step;
+	return std::min(step, config->playersMaxStep);
 }
 
 unsigned GameState::getPointsForKill(Enemy::Action action) const
