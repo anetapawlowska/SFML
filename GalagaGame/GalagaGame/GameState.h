@@ -41,6 +41,7 @@ private:
 	void keyReleased(sf::Keyboard::Key key);
 	void checkPlayersMove();
 	void addPointsForKill(Enemy::Action action);
+	void setScoreText();
 
 	// ===== dummy logic ======
 	unsigned getPointsForKill(Enemy::Action action) const;

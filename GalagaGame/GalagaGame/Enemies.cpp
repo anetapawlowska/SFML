@@ -66,17 +66,26 @@ void Enemies::add(unsigned numOfRows, float step)
 	const unsigned inRow = static_cast<unsigned>((m_windowSize.x - 2 * fromWall + spaces) / (m_enemySize.x + spaces));
 	const float startPoint = (m_windowSize.x - inRow * m_enemySize.x - (inRow - 1) * spaces) / 2;
 
-	const auto position = [=](int row, int reel) {return sf::Vector2f{ startPoint + reel * (m_enemySize.x + spaces), fromCeiling + row * (m_enemySize.y + spaces) }; };
+	const auto getStartPosition = [=](int reel, int row ) {return sf::Vector2f{ startPoint + reel * (m_enemySize.x + spaces), fromCeiling + row * (m_enemySize.y + spaces) }; };
+	const auto posYOffset = getStartPosition(0, numOfRows - 1).y + m_enemySize.y;
 
 	m_enemies.reserve(numOfRows * inRow);
 
 	for (unsigned row = 0; row < numOfRows; row += 2)
 		for (unsigned reel = 0; reel < inRow; ++reel)
-			m_enemies.push_back(std::make_unique<Enemy>(m_bullets, m_windowSize, m_enemySize, m_shooterColor, position(row,reel)));
+		{
+			const auto startPos = getStartPosition(reel ,row);
+			m_enemies.push_back(std::make_unique<Enemy>(m_bullets, m_windowSize, m_enemySize, m_shooterColor, 
+				startPos, sf::Vector2f{ startPos.x, startPos.y - posYOffset }, sf::Vector2f{ 0.0f, m_step }));
+		}
 
 	for (unsigned row = 1; row < numOfRows; row += 2)
 		for (unsigned reel = 0; reel < inRow; ++reel)
-			m_enemies.push_back(std::make_unique<NonShooterEnemy>(m_bullets, m_windowSize, m_enemySize, m_nonShooterColor, position(row, reel)));
+		{
+			const auto startPos = getStartPosition(reel ,row);
+			m_enemies.push_back(std::make_unique<NonShooterEnemy>(m_bullets, m_windowSize, m_enemySize, m_nonShooterColor, 
+				startPos, sf::Vector2f{ startPos.x, startPos.y - posYOffset }, sf::Vector2f{ 0.0f, m_step }));
+		}
 }
 
 bool Enemies::shouldGoAttack() const

@@ -13,7 +13,8 @@ public:
 		goBack
 	};
 	
-	explicit Enemy( Bullets* bullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position);
+	explicit Enemy( Bullets* bullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, 
+		sf::Vector2f startPosition, sf::Vector2f position, sf::Vector2f step);
 	~Enemy();
 
 	void update(float deltaTime);
@@ -31,6 +32,6 @@ private:
 	sf::Vector2u m_windowSize;
 	sf::Vector2f m_step{ 0.0f, 0.0f };
 	sf::Vector2f m_startPosition;
-	Action m_action{ Action::stayStill };
+	Action m_action{ Action::goBack };
 };
 

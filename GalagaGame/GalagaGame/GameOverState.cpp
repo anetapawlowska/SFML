@@ -70,7 +70,7 @@ void GameOverState::setText()
 {
 	auto* shared = m_stateManager->getSharedContext();
 	++shared->m_level;
-	m_text.setString("Points: " + std::to_string(shared->points) + "\nLevels: " + std::to_string(shared->m_level));
+	m_text.setString("Score: " + std::to_string(shared->points) + "\nLevels: " + std::to_string(shared->m_level));
 	sf::FloatRect textRect = m_text.getLocalBounds();
 	m_text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 }

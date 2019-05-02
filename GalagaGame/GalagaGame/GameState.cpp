@@ -80,7 +80,7 @@ void GameState::onEnter()
 {
 	auto* sharedContext = m_stateManager->getSharedContext();
 	sharedContext->points = 0;
-	m_pointsText.setString(std::to_string(sharedContext->points));
+	setScoreText();
 	m_lives = sharedContext->config->lives;
 	sharedContext->m_level = 0;
 	start();
@@ -230,7 +230,13 @@ void GameState::addPointsForKill(Enemy::Action action)
 	const unsigned points = getPointsForKill(action);
 	const auto config = m_stateManager->getSharedContext();
 	config->points += points;
-	m_pointsText.setString(std::to_string(config->points));
+	setScoreText();
+}
+
+void GameState::setScoreText()
+{
+	const auto config = m_stateManager->getSharedContext();
+	m_pointsText.setString("Score: " + std::to_string(config->points));
 }
 
 // ========================== dummy logic ===============================

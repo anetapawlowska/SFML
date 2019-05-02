@@ -2,8 +2,9 @@
 #include "Enemy.h"
 #include "Bullets.h"
 
-Enemy::Enemy(Bullets* bullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, sf::Vector2f position) :
-	m_bullets{ bullets }, m_shape {size}, m_windowSize{ windowSize }, m_startPosition{ position }
+Enemy::Enemy(Bullets* bullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, 
+	sf::Vector2f startPosition, sf::Vector2f position, sf::Vector2f step) :
+	m_bullets{ bullets }, m_shape {size}, m_windowSize{ windowSize }, m_startPosition{ startPosition}, m_step{step}
 {
 	m_shape.setFillColor(color);
 	m_shape.setPosition(position);
