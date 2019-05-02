@@ -6,9 +6,9 @@ class PlayersMovement
 public:
 	enum class PlayersDirection
 	{
-		none,
-		right,
-		left
+		None,
+		Right,
+		Left
 	};
 
 	PlayersMovement(float playersStep, float playersMaxStep);
@@ -28,7 +28,7 @@ private:
 
 	unsigned m_keyPressedCounter{ 0 };
 	bool m_isKeyPressed{ false };
-	PlayersDirection m_playersDirection{ PlayersDirection::none };
+	PlayersDirection m_playersDirection{ PlayersDirection::None };
 
 	const float m_playersStep;
 	const float m_playersMaxStep;

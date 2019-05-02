@@ -18,14 +18,14 @@ void PlayersMovement::keyPressed(sf::Keyboard::Key key)
 		return;
 
 	m_isKeyPressed = true;
-	m_playersDirection = key == sf::Keyboard::Key::Right ? PlayersDirection::right : PlayersDirection::left;
+	m_playersDirection = key == sf::Keyboard::Key::Right ? PlayersDirection::Right : PlayersDirection::Left;
 	m_keyPressedCounter = 0;
 }
 
 void PlayersMovement::keyReleased(sf::Keyboard::Key key)
 {
-	if ((key == sf::Keyboard::Key::Right && m_playersDirection == PlayersDirection::right) ||
-		(key == sf::Keyboard::Key::Left && m_playersDirection == PlayersDirection::left))
+	if ((key == sf::Keyboard::Key::Right && m_playersDirection == PlayersDirection::Right) ||
+		(key == sf::Keyboard::Key::Left && m_playersDirection == PlayersDirection::Left))
 		m_isKeyPressed = false;
 }
 
@@ -33,12 +33,12 @@ void PlayersMovement::clear()
 {
 	m_keyPressedCounter = 0;
 	m_isKeyPressed = false;
-	m_playersDirection = PlayersDirection::none;
+	m_playersDirection = PlayersDirection::None;
 }
 
 void PlayersMovement::update(float deltaTime)
 {
-	if (m_playersDirection == PlayersDirection::none)
+	if (m_playersDirection == PlayersDirection::None)
 		return;
 
 	if (m_isKeyPressed && getStep() < m_playersMaxStep)
@@ -47,12 +47,12 @@ void PlayersMovement::update(float deltaTime)
 		--m_keyPressedCounter;
 
 	if (m_keyPressedCounter == 0)
-		m_playersDirection = PlayersDirection::none;
+		m_playersDirection = PlayersDirection::None;
 }
 
 bool PlayersMovement::shouldMove() const
 {
-	return m_playersDirection != PlayersDirection::none;
+	return m_playersDirection != PlayersDirection::None;
 }
 
 // ========================== dummy logic ===============================
@@ -63,7 +63,7 @@ float PlayersMovement::getStep() const
 	float step = m_playersStep;
 	step += m_keyPressedCounter * multiplier;
 	step = std::min(step, m_playersMaxStep);
-	if (m_playersDirection == PlayersDirection::left)
+	if (m_playersDirection == PlayersDirection::Left)
 		step *= -1;
 	return step;
 }

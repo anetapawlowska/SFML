@@ -47,5 +47,5 @@ unsigned PointsScorer::getPointsForKill(Enemy::Action action) const
 {
 	const unsigned pointsForKill = 50;
 	const unsigned pointsForAttacker = 75;
-	return action == Enemy::Action::attack ? pointsForAttacker : pointsForKill;
+	return action == Enemy::Action::Attack ? pointsForAttacker : pointsForKill;
 }

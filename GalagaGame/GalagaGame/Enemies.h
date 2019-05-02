@@ -26,7 +26,6 @@ private:
 	bool shouldGoAttack() const;
 	bool shouldFire() const;
 
-
 	sf::Color m_shooterColor;
 	sf::Color m_nonShooterColor;
 	EnemiesInfo m_enemies;

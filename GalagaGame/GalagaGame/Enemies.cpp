@@ -22,9 +22,9 @@ void Enemies::update(float deltaTime)
 {
 	for (auto& enemy : m_enemies)
 	{
-		if (enemy->getAction() == Enemy::Action::stayStill && shouldGoAttack())
+		if (enemy->getAction() == Enemy::Action::StayStill && shouldGoAttack())
 			enemy->attack({ 0.0f, m_step });
-		else if (enemy->getAction() == Enemy::Action::attack && shouldFire())
+		else if (enemy->getAction() == Enemy::Action::Attack && shouldFire())
 			enemy->shoot();
 
 		enemy->update(deltaTime);

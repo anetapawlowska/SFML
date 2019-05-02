@@ -148,12 +148,12 @@ void GameState::start()
 	m_enemies->clear();
 	m_playersBullets->clear();
 	m_enemiesBullets->clear();
-	setLivesText();
 
 	const float bulletsStep = getBulletsStep(); 
 	m_enemiesBullets->setStep(bulletsStep);
 	m_playersBullets->setStep(-1 * bulletsStep);
 
+	setLivesText();
 	m_enemies->add(getNumOfEnemiesRows(), getEnemiesSteps());
 }
 

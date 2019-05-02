@@ -17,15 +17,15 @@ Enemy::~Enemy()
 void Enemy::update(float deltaTime) 
 {
 	auto position = m_shape.getPosition();
-	if (m_action == Action::attack && position.y >= m_windowSize.y)
+	if (m_action == Action::Attack && position.y >= m_windowSize.y)
 	{
 		position.y = -m_shape.getSize().y;
-		m_action = Action::goBack;
+		m_action = Action::GoBack;
 	}
-	if (m_action == Action::goBack && abs(position.y - m_startPosition.y) <= abs(m_step.y))
+	if (m_action == Action::GoBack && abs(position.y - m_startPosition.y) <= abs(m_step.y))
 	{
 		position = m_startPosition;
-		m_action = Action::stayStill;
+		m_action = Action::StayStill;
 		m_step = { 0.0f, 0.0f };
 	}
 
@@ -50,7 +50,7 @@ Enemy::Action Enemy::getAction() const
 
 void Enemy::attack(sf::Vector2f step)
 {
-	m_action = Action::attack;
+	m_action = Action::Attack;
 	m_step = step;
 }
 
@@ -72,6 +72,6 @@ void Enemy::shoot()
 void Enemy::goBack()
 {
 	m_shape.setPosition(m_startPosition);
-	m_action = Action::stayStill;
+	m_action = Action::StayStill;
 	m_step = { 0.0f, 0.0f };
 }

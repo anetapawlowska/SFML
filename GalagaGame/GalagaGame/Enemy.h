@@ -8,9 +8,9 @@ class Enemy
 public:
 	enum class Action
 	{
-		stayStill,
-		attack,
-		goBack
+		StayStill,
+		Attack,
+		GoBack
 	};
 	
 	explicit Enemy( Bullets* bullets, sf::Vector2u windowSize, sf::Vector2f size, sf::Color color, 
@@ -33,6 +33,6 @@ private:
 	sf::Vector2u m_windowSize;
 	sf::Vector2f m_step{ 0.0f, 0.0f };
 	sf::Vector2f m_startPosition;
-	Action m_action{ Action::goBack };
+	Action m_action{ Action::GoBack };
 };
 
